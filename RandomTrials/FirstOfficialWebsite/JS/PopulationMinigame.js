@@ -330,6 +330,11 @@ let achievementsPop = [SmallNeighborhood, SmallVillage, FlourishingVillage, Envi
 /* Saving The Game
 ---------------------------------------------------------------------------------------------*/
 
+function setPopToHighscore() {
+    let highscorePop = localStorage.getItem("PopulationHighScore");
+    Village.Population = highscorePop;
+}
+
 function saveGame() {
     if(Village.Population > Village.PopulationHighScore) {
         Village.PopulationHighScore = Village.Population;
