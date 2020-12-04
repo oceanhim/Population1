@@ -20,6 +20,8 @@ function startGame() {
     let startbtnstart = document.getElementById("startbtn")
     startbtnstart.style.display = "none"
     alert(`Game Started!`)
+    let highscorePop = localStorage.getItem("PopulationHighScore");
+    Village.PopulationHighScore = highscorePop;
 }
 
 let VillagerConsumptionTime;
@@ -95,6 +97,7 @@ Village.Wood = 20;
 Village.Stone = 10;
 Village.Iron = 0;
 Village.Idle = 1;
+Village.PopulationHighScore = 0;
 
 /* Buy Buildings
 ---------------------------------------------------------------------------------------------*/
@@ -166,7 +169,7 @@ function updateVillage() {
 
 function showVillage() {
     let Villagestats = document.getElementById("statsDisplay")
-    Villagestats.innerHTML = `<strong>Name: ${Village.Name} <br> Population: ${Village.Population} <br> Happiness: ${Village.AverageHappiness} <br> Food Supply: ${Village.FoodSupply} <br> Water Supply: ${Village.WaterSupply} <br> Area: ${Village.Area} <br> Area left: ${Village.AreaLeft} <br> Wood: ${Village.Wood} <br> Stone: ${Village.Stone} <br> Iron: ${Village.Iron}<br> Money: ${Village.Money} <br> Idle Villagers: ${Village.Idle}<strong>`
+    Villagestats.innerHTML = `<strong>Name: ${Village.Name} <br> Population: ${Village.Population} <br> Happiness: ${Village.AverageHappiness} <br> Food Supply: ${Village.FoodSupply} <br> Water Supply: ${Village.WaterSupply} <br> Area: ${Village.Area} <br> Area left: ${Village.AreaLeft} <br> Wood: ${Village.Wood} <br> Stone: ${Village.Stone} <br> Iron: ${Village.Iron}<br> Money: ${Village.Money} <br> Idle Villagers: ${Village.Idle} <br> Population High Score: ${Village.PopulationHighScore}<strong>`
 }
 
 function youLose() {
@@ -191,6 +194,7 @@ function villagersEat() {
 }
 
 // setInterval(checkAchievements, 100)
+setInterval(saveGame, 10000)
 setInterval(organizeBuildings, 100)
 setInterval(ItemDiscovered, 100)
 setInterval(collectRecources, 5000)
@@ -322,6 +326,16 @@ let achievementsPop = [SmallNeighborhood, SmallVillage, FlourishingVillage, Envi
 // function checkAchievements() {
 //     achievementsPop.forEach(a =>{if(a.achievedPoint >= Village.Population && a.achieved == false)a.achieved = true, Village.Wood += a.achievedPoint, Village.Stone += a.achievedPoint, Village.Iron += a.achievedPoint, alert(`YAY! For your achivement completion, you are awarded free supplies!`)});
 // }
+
+/* Saving The Game
+---------------------------------------------------------------------------------------------*/
+
+function saveGame() {
+    if(Village.Population > Village.PopulationHighScore) {
+        Village.PopulationHighScore = Village.Population;
+        localStorage.setItem("PopulationHighScore", Village.PopulationHighScore);
+    }
+}
 
 /* Other
 ---------------------------------------------------------------------------------------------*/
