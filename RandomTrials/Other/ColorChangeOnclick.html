@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <script>
+            function changecolorblack() {
+                let testblock = document.getElementById("test1");
+                	if (testblock.style.backgroundColor === "black") {
+						testblock.style.backgroundColor = "purple";
+					} else {
+                        testblock.style.backgroundColor = "black";
+                    }
+            }
+        </script>
+    </head>
+    <body>
+        <input type="button" onclick="changecolorblack()" id="test1" style="background-color: black;">
+    </body>
+</html>

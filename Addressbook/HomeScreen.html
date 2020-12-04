@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <script src="JS/BeginningJs.js"></script>
+        <title>Address Book</title>
+   
+        <style>
+            #WrittenTitle {
+                text-align: center;
+                font-weight: bolder;
+                color: white;
+                font-size: 75px;
+            }
+
+            body {
+                background-color: teal;
+            }
+
+            #searchContactsBar {
+                border-radius: 30%;
+                width: 1900px;
+                height: 90px;
+                text-align: center;
+                font-size: 100px;
+                text-shadow: currentColor;
+                font-family: 'Courier New', Courier, monospace;
+            }
+
+            #AddContactButton {
+                float: right;
+                width: 100px;
+                height: 100px;
+                font-size: 100px;
+            }
+
+            #AddContactButton:hover {
+                background-color: turquoise;
+            }
+
+            #addcontactspan {
+                display: none;
+                float: right;
+                background-color: darkgoldenrod;
+                border: solid;
+                border: black;
+            }
+
+            #AddContactButton:hover + #addcontactspan {
+                display: block;
+                color: black;
+            }
+        
+            .contactBtn {
+                height: 150px;
+                width: 750px;
+                font-size: 100px;
+                text-align: center;
+                border-radius: 20px;
+            }
+        
+            .contactBtn:hover {
+                background-color: turquoise;
+            }
+
+            #genBtn:hover {
+                background-color: turquoise;
+            }
+        </style>
+    </head>
+    <body>
+        <h1 id="WrittenTitle">Address Book/Contacts List</h1>
+        <input type="button" id="AddContactButton" onclick="addContact()" value="+">
+        <span id="addcontactspan">Add Contact</span>
+        <input type="button" value="Reload" class="genBtn" id="forceReloadbtn" onclick="ForceReload()">
+        <input type="search" id="searchContactsBar" placeholder="Search for a contact here">
+        <div id="ContactsList"></div>
+        <div id="ContactInfoDisplay"></div>
+        <div id="ErrorDisplay"></div>
+    </body>
+</html>

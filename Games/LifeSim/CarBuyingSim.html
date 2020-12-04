@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <script src="JS/Cars.js"></script>
+        <script src="JS/Human.Js"></script>
+        <script src="JS/HouseStats.js"></script>
+        <script src="CSS/WebPage.css"></script>
+        <style>
+            .ImgLabel {
+                font-size: 50px;
+            }
+
+            .genBtn {
+                background-color: aqua;
+                font-style: italic;
+                color: red;
+                font-weight: 1000;
+                border: ridge;
+                font-size: 100px;
+                border-width: 30px;
+            }
+
+            input:hover {
+                background-color: green;
+                border-radius: 10%;
+                cursor: pointer;
+            }
+        </style>    
+        <script>
+            
+        </script>
+    </head>
+    <body>
+        <input type="button" value="View Family", onclick="ShowFamily()" class="genBtn">
+        <div id="FamilyImagesAndLabels" style="display: none;" >
+            <label for="animatedDaughterPic" id="labelForDaughter" class="ImgLabel">Daughter: </label>
+            <img width="150px" src="Images/animatedDaughter.jpg" id="animatedDaughterPic" />
+            <label for="animatedSonPic"  id="labelForSon" class="ImgLabel">Son: </label>
+            <img width="150px" src="Images/animatedSon.jpg" id="animatedSonPic" />
+            <label for="animatedFatherPic"  id="labelForFather" class="ImgLabel">Father: </label>
+            <img width="150px" src="Images/animatedFather.jpg" id="animatedFatherPic" />
+            <label for="animatedMotherPic"  id="labelForMother" class="ImgLabel">Mother: </label>
+            <img width="150px" src="Images/animatedMother.jpg" id="animatedMotherPic" />
+        </div>
+        <input type="button" value="View Housing Market" onclick="ShowHouses()" class="genBtn">
+        <div id="HousingMarket" style="display: none;"></div>
+        <input type="button" value="Force Safeway to Restock" onclick="ForceRestock()" class="genBtn">
+    </body>
+</html>

@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <script src="JS/AccountCreation.js"></script>
+        <script src="JS/PopulationMinigame.js"></script>
+        <link rel="stylesheet" href="CSS/style.css">
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+        <title>Official Webiste</title>
+    </head>
+    <body onload="playAudio()">
+        <audio id="myAudio" >
+            <source src="Music/174764__yottasounds__swoop-007.wav" type="audio/mpeg">
+        </audio>
+        <header>
+            <div id="containerBG">
+                <div class="container">
+                    <h2>Official Website</h2>
+                    <p>To make the tabs toggleable, add the data-toggle="pill" attribute to each link. Then add a .tab-pane class with a unique ID for every tab and wrap them inside a div element with class .tab-content.</p>
+                    <ul class="nav nav-pills">
+                    <li class="active"><a data-toggle="pill" href="#home">Home</a></li>
+                    <li><a data-toggle="pill" href="#menu1">Promotion Application</a></li>
+                    <li><a data-toggle="pill" href="#menu2">Support</a></li>
+                    <li><a data-toggle="pill" href="#menu3">Gaming</a></li>
+                    <li><a data-toggle="pill" href="#menu4">Login</a></li>
+                    <li><a data-toggle="pill" href="#menu5">Sign Up</a></li>
+                    </ul>
+                    
+                    <div class="tab-content">
+                    <div id="home" class="tab-pane fade in active">
+                        <h2>HOME</h2>
+                        <h3>My First Official Webiste</h3>
+                    </div>
+                    <div id="menu1" class="tab-pane fade">
+                        <h3>Promotion Application</h3>
+                        <div id="promoApplication">
+                            <div class="container">
+                                <h2>Form Application</h2>
+                                <!-- Trigger the modal with a button -->
+                                <button type="button" class="btn btn-info btn-lg" data-toggle="modal" data-target="#myModal" onclick="refreshFrom()">Open Form</button>
+                              
+                                <!-- Modal -->
+                                <div class="modal fade" id="myModal" role="dialog">
+                                  <div class="modal-dialog">
+                                  
+                                    <!-- Modal content-->
+                                    <div class="modal-content">
+                                      <div class="modal-header">
+                                        <button type="button" class="close" data-dismiss="modal">&times;</button>
+                                        <h4 class="modal-title">Mod Application</h4>
+                                      </div>
+                                      <div class="modal-body">
+                                        <div id="errorDisplay"></div>
+                                        <br>
+                                        <label for="fname">First Name: </label>
+                                        <input type="text" id="fnametxtbox" placeholder="your first name" name="fname">
+                                        <br>
+                                        <br>
+                                        <label for="lname">Last Name: </label>
+                                        <input type="text" id="lnametxtbox" placeholder="your last name" name="lname">
+                                        <br>
+                                        <br>
+                                        <!-- <label for=""></label>
+                                        <br>
+                                        <br> -->
+                                        <input type="button" id="subFormBtn" value="Submit" class="btn btn-info btn-lg" onclick="subForm()">
+                                      </div>
+                                      <div class="modal-footer">
+                                        <div id="thxForFeedbackDiv" style="display: none;"></div>
+                                        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                                      </div>
+                                    </div>
+                                  </div>
+                                </div>
+                            </div>
+                        </div>
+                        <br>
+                        <h3>Submit this application to become a candidate for the open Mod position in our server</h3>
+                    </div>
+                    <div id="menu2" class="tab-pane fade">
+                        <h3>Support</h3>
+                        <div id="Supportstat">   
+
+                        </div> 
+                    </div>
+                    <div id="menu3" class="tab-pane fade">
+                        <h3>Gaming</h3>
+                        <div class="container">
+                            <ul class="nav nav-pills">
+                            <li class="active"><a data-toggle="pill" href="#gaminghome">Home</a></li>
+                            <li><a data-toggle="pill" href="#menu11">Minecraft</a></li>
+                            <li><a data-toggle="pill" href="#menu12">Echo VR</a></li>
+                            <li><a data-toggle="pill" href="#menu13">Among Us</a></li>
+                            <li><a data-toggle="pill" href="#menu14">Minigame</a></li>
+                            </ul>
+                            
+                            <div class="tab-content">
+                            <div id="gaminghome" class="tab-pane fade in active">
+                                <h1>Game Hub</h1>
+                                <h2>There are lots and lots of great games out there, but right now, these are the games I like to play. You'll find links that will help you navigate your way to downloading them.</h2>
+                            </div>
+                            <div id="menu11" class="tab-pane fade">
+                                <h3>Minecraft</h3>
+                                <div id="promoApplication">
+                                    <a href="https://www.minecraft.net/en-us" target="_" alt="Minecraft Website" title="Minecraft Website" >
+                                    <h1>Minecraft Official Webiste</h1>
+                                    <img src="Images/Minecraft.jpg" alt="Minecraft">
+                                    </a>
+                                </div>
+                            </div>
+                            <div id="menu12" class="tab-pane fade">
+                                <h3>Echo VR</h3>
+                                <div id="Supportstat">   
+                                    <a href="https://www.oculus.com/echo-vr/" target="_" alt="echo-vr" title="echo-vr" >
+                                        <h1>Echo VR - Oculus Official Webiste</h1>
+                                        <img src="Images/EchoVR.jpg" alt="Echo VR">
+                                    </a>
+                                </div> 
+                            </div>
+                            <div id="menu13" class="tab-pane fade">
+                                <h3>Among Us</h3>
+                                <a href="https://play.google.com/store/apps/details?id=com.innersloth.spacemafia&hl=en_US&gl=US" target="_" alt="Among Us" title="Among Us" >
+                                    <h1>Among Us Download App Store</h1>
+                                    <img src="Images/Among Us.jpg" alt="Among Us">
+                                </a>
+                                <a href="https://store.steampowered.com/app/945360/Among_Us/" target="_" alt="Among Us" title="Among Us" >
+                                    <h1>Among Us Download Steam</h1>
+                                    <img src="Images/Among Us.jpg" alt="Among Us">
+                                </a>
+                            </div>
+                            <div id="menu14" class="tab-pane fade">
+                                <h2>Population</h2>
+                                <br>
+                                <input type="button" value="Build" class="btn btn-info btn-lg" onclick="learnAppend()">
+                                <input type="button" value="Job Info" class="btn btn-info btn-lg" onclick="showJobs()">
+                                <div id="jobsDiv"></div>
+                                <div id="constructiondiv">
+                                    <!-- <input type="button" value="Build Cottage" class="btn btn-info btn-lg" onclick="buildHome(Cottage)"> -->
+                                </div>
+                                <br>
+                                <input type="button" value="Village Stats" class="btn btn-info btn-lg" id="showStatsbtn" onclick="showVillageStats()">
+                                <input type="button" value="Handbook" class="btn btn-info btn-lg" id="handookbtn" onclick="showHandbook()">
+                                <div id="builtAni"></div>
+                                <br>
+                                <input type="button" value="START" id="startbtn" onclick="startGame()">
+                                <h3>Your Small Village</h3>
+                                <img src="Images/smallVillage.jpg" alt="Small Village" name="mySmallVillage">
+                                <div id="villageInfo">
+                                    <h3 id="villageHeader">Village Info</h3>
+                                    <div id="statsDisplay"></div>
+                                </div>
+                                <div id="handbookDiv" style="display: none;">
+                                    <h3>Building materials</h3>
+                                    <br>
+                                    <h3>The only buildings that appear are the ones you have discovered, the ones you haven't discovered yet will not show.</h3>
+                                    <div id="handbookdiv"></div>
+                                </div>
+                            </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div id="menu4" class="tab-pane fade">
+                        <h3>Login</h3>
+                        <input type="button" value="Login" id="loginBtn" class="btn btn-info btn-lg" onclick="login()">
+                    </div>
+                    <div id="menu5" class="tab-pane fade">
+                        <h3>Sign Up</h3>
+                        <input type="button" value="Sign Up" id="signUpBtn" class="btn btn-info btn-lg" onclick="createAccount()">
+                    </div>
+                    </div>
+                </div>
+            </div>
+        </header>
+    </body>
+</html>

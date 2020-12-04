@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <style>
+            #signUp {
+                text-align: center;
+                font-size: 100px;
+            }
+
+            #usersInfo {
+                text-align: center;
+                font-size: 50px;
+            }
+
+            #loginLink {
+                text-align: center;
+                font-size: 75px;
+            }
+
+            a:hover {
+                cursor: pointer;
+                color: aqua;
+                border-color: black;
+                border: solid;
+            }
+
+            #usernamecreation {
+                width: 200px;
+                height: 30px;
+                font-size: large;
+            }
+        
+            .formtextboxes {
+                width: 200px;
+                height: 30px;
+                font-size: large;
+            }
+        
+            #showInfo {
+                float: left;
+            }
+        
+            
+        </style>
+        <script>
+            function submitUserInfo() {
+                let usersName = document.getElementById("usernamecreation").value;
+                let usersPassword = document.getElementById("usersPasswordCreation").value;
+
+                if (typeof(Storage) !== "undefined") {
+                    // Store
+                    localStorage.setItem("UsersChosenName", usersName);
+                    localStorage.setItem("UsersChosenPassword", usersPassword);
+                    // Retrieve
+                    document.getElementById("nameDisplay").innerHTML = localStorage.getItem("UsersChosenName");
+                    document.getElementById("passwordDisplay").innerHTML = localStorage.getItem("UsersChosenPassword");
+                } else {
+                    document.getElementById("ErrorDisplay").innerHTML = "Sorry, your browser does not support Web Storage...";
+                }
+                console.log(usersName);
+                console.log(usersPassword);
+                console.log(usersBirthday);
+                document.getElementById("usernamecreation").value = '';
+                document.getElementById("usersPasswordCreation").value = '';
+            }
+
+            function showUserInfo() {
+                // let UsersPassword = localStorage.getItem("UsersChosenPassword")
+                // let UsersName = localStorage.getItem("UsersChosenName")
+                // if(UsersName === "null") {
+                //     UsersName = "(You haven't setup one yet)";
+                // }
+                
+                // if(UsersPassword === "null") {
+                //     UsersPassword = "(You haven't setup one yet)";
+                // }
+                document.getElementById("nameDisplay").innerHTML = `Your name is ${localStorage.getItem("UsersChosenName")}`;
+                document.getElementById("passwordDisplay").innerHTML = `Your Password is ${localStorage.getItem("UsersChosenPassword")}`;
+            }
+        
+            
+        </script>
+    </head>
+    <body>
+        <input type="button" id="showInfo" value="Show User Info" onclick="showUserInfo()">
+        <br>
+        <h1 id="signUp">Sign Up</h1>
+        <br>
+        <div id="usersInfo">
+            <label for="usernamecreation">Username: </label>
+            <input type="text" id="usernamecreation" placeholder="Type your username here">
+            <br>
+            <label for="usersPasswordCreation">Password: </label>
+            <input type="password" id="usersPasswordCreation" placeholder="Type your password here" class="formtextboxes">
+            <br>
+            <input type="button" id="submitAllInfo" value="Submit" onclick="submitUserInfo()">
+        </div>
+        <a href="file:///C:/_code/JSpractices/RandomTrials/Form1Login.html" target="_" alt="login Site" title="login Site" id="loginLink">Login</a>
+        <div id="nameDisplay"></div>
+        <div id="passwordDisplay"></div> 
+    </body>
+</html>

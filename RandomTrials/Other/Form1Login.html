@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html>
+    <script src="/RandomTrials/Form1SignUp.html"></script>
+    <head>
+        <style>
+            #Login {
+                text-align: center;
+                font-size: 100px;
+            }
+        
+            #usersAttemptedInput {
+                text-align: center;
+                font-size: 50px;
+            }
+        
+            #signUpLink {
+                text-align: center;
+                font-size: 75px;
+            }
+
+            a:hover {
+                cursor: pointer;
+                border-color: black;
+                border: solid;
+            }
+        
+            #UsersHomePage {
+                text-align: center;
+                font-size: 100px;
+            }
+        </style>
+        <script>
+            function submitLoginInfo() {
+                let usernameInput = document.getElementById("LoginUsername").value;
+                let correctLoginUsernameInfo = localStorage.getItem("UsersChosenName");
+                let passwordInput = document.getElementById("LoginPassword").value;
+                let correctLoginPasswordInfo = localStorage.getItem("UsersChosenPassword");
+                if(usernameInput == correctLoginUsernameInfo && passwordInput == correctLoginPasswordInfo) {
+                    alert("You logged in sucssefully!")
+                    let homepagelink = document.getElementById("UsersHomePage");
+                	if (homepagelink.style.display === "none") {
+						homepagelink.style.display = "block";
+					}
+                } else {
+                    alert("The information you submitted is incorrect.")
+                }
+            }
+        </script>
+    </head>
+    <body>
+        <h1 id="Login">Login</h1>
+        <br>
+        <div id="usersAttemptedInput">
+            <label for="LoginUsername">Username: </label>
+            <input type="text" id="LoginUsername" placeholder="Type your username here">
+            <br>
+            <label for="LoginPassword">Password: </label>
+            <input type="password" id="LoginPassword" placeholder="Type your password here">
+            <br>
+            <input type="button" value="Submit" onclick="submitLoginInfo()">
+        </div>
+        <a href="file:///C:/_code/JSpractices/RandomTrials/Form1SignUp.html" target="_" alt="signUp Site" title="signUp" id="signUpLink">Sign Up</a>
+        <a href="file:///C:/_code/JSpractices/RandomTrials/Form1UserHomPage.html" target="_" alt="UsersHomePage" title="UsersHomePage" id="UsersHomePage" style="display: none;">Your Homepage</a>
+    </body>
+</html>

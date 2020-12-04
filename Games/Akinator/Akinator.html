@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html>
+    <title>Akinator</title>
+    <head>
+        <script src="Js/PersonID.js"></script>
+
+        <div id="nameDisplay" class="glow"></div>
+        <style>
+            body {
+                background-color: black;
+            }
+
+            #result {
+                float: right;
+            }
+
+            #playernamecreation {
+                width: 500px;
+                height: 100px;
+                float: right;
+                text-align: center;
+                font-size: 50px;
+            }
+        
+                .genbtn {
+                    border: none;
+                }
+
+                .gentxt {
+                    font-size: 40px;
+                }
+
+            .glow {
+                font-size: 80px;
+                color: #fff;
+                text-align: center;
+                -webkit-animation: glow 1s ease-in-out infinite alternate;
+                -moz-animation: glow 1s ease-in-out infinite alternate;
+                animation: glow 1s ease-in-out infinite alternate;
+            }
+
+            @-webkit-keyframes glow {
+                from {
+                    text-shadow: 0 0 10px #fff, 0 0 20px #fff, 0 0 30px #e60073, 0 0 40px #e60073, 0 0 50px #e60073, 0 0 60px #e60073, 0 0 70px #e60073;
+                }
+                
+                to {
+                    text-shadow: 0 0 20px #fff, 0 0 30px #ff4da6, 0 0 40px #ff4da6, 0 0 50px #ff4da6, 0 0 60px #ff4da6, 0 0 70px #ff4da6, 0 0 80px #ff4da6;
+                }
+            }
+        </style>
+        <script>
+            function clickCounter() {
+                if (typeof(Storage) !== "undefined") {
+                    if (localStorage.clickcount) {
+                    localStorage.clickcount = Number(localStorage.clickcount)+1;
+                    } else {
+                    localStorage.clickcount = 1;
+                    }
+                    document.getElementById("clickCounterDisplay").innerHTML = "You have clicked the button " + localStorage.clickcount + " time(s).";
+                } else {
+                    document.getElementById("clickCounterDisplay").innerHTML = "Sorry, your browser does not support web storage...";
+                }
+            }
+
+            function submitName() {
+                let usersName = document.getElementById("playernamecreation").value;
+                if (typeof(Storage) !== "undefined") {
+                    // Store
+                    localStorage.setItem("usersChosenName", usersName);
+                    // Retrieve
+                    document.getElementById("nameDisplay").innerHTML = localStorage.getItem("usersChosenName");
+                } else {
+                    document.getElementById("nameDisplay").innerHTML = "Sorry, your browser does not support Web Storage...";
+                }
+                console.log(usersName)
+                document.getElementById("playernamecreation").value = '';
+                
+            }
+        
+             function showNameOfUser() {
+                alert(`Your name is ${localStorage.getItem("usersChosenName")}`)
+                document.getElementById("showsNameofplayer").innerHTML = `Your name is ${localStorage.getItem("usersChosenName")}`;
+            }
+
+            function enableHotKey(e) {
+                console.log(e); 
+                if(e.keyCode== 13)
+                    submitName();
+			};
+
+       </script>
+    </head>
+    <body>
+        <!--<input type="button" onclick="clickCounter()" value="Click Me"/>-->
+        <input type="text" placeholder="Type your name here" id="playernamecreation" onkeydown="enableHotKey(event);" >
+        <input type="button" id="enterName" value="ENTER" onclick="submitName()" class="glow" class="genbtn">
+        <input type="button" onclick="clickCounter()" value="Count Clicks" class="glow" class="genbtn">
+        <input type="button" value="Show Name" id="showsusersname" onclick="showNameOfUser()" class="glow"> 
+        <input type="button" value="TEST" id="btnTest" onclick="boo()" class="glow"> 
+        <div id="showsNameofplayer" class="glow"></div>
+        <div id="clickCounterDisplay" class="glow"></div>
+    </body>
+</html>
+
+    

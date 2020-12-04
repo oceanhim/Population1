@@ -1,0 +1,96 @@
+html {
+    height: 100%;
+}
+
+#footer {
+    background-color: black;
+    position: relative;
+    text-align: center;
+    color: white;
+    padding: 15px;
+    font-style: italic;
+    font-size: 75px;
+}
+
+body {
+    text-shadow: 1px 1px 8px white;
+    font-family: Verdana; color: #fff;
+    background: radial-gradient(#205983, #0A2742)
+}
+
+#containerBG {
+    background-color: white;
+}
+
+h1 {
+    text-align: center;
+    color: white;
+}
+
+.genBtn {
+    background-color: limegreen;
+    color: white;
+    text-align: center;
+    width: 200px;
+    height: 100px;
+    border: none;
+    font-size: 50px;
+}
+
+.genBtn:hover {
+    background-color: teal;
+}
+
+#thxForFeedbackDiv {
+    font-size: 25px;
+}
+
+#errorDisplay {
+    color: red;
+}
+
+#statsDisplay {
+    float: right;
+    font-size: 20px;
+}
+
+#villageHeader {
+    float: right;
+}
+
+#villageInfo {
+    display: none;
+}
+
+#villageInfo {
+    float: right;
+}
+
+#builtAni {
+    float: right;
+}
+
+.bootstrap-imatation {
+    background-color: blue;
+    font-size: large;
+    width: auto;
+    height: auto;
+    color: white;
+    border-radius: 10px;
+}
+
+.bootstrap-imatation:hover {
+    background-color: cadetblue;
+}
+
+#startbtn {
+    float: right;
+    width: 500px;
+    height: 400px;
+    font-size: 150px;
+    text-align: center;
+}
+
+/* #containerBG:hover {
+    cursor: no-drop;
+} */

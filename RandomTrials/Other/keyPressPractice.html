@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <style>
+            #test {
+                cursor: cell;
+            }
+
+            #test1 {
+                cursor: copy;
+            }
+
+            #test2 {
+                cursor: grab;
+            }
+            
+            #test3 {
+                cursor: crosshair;
+            }
+
+            #test4 {
+                cursor: grabbing;
+            }
+
+            #test5 {
+                cursor: help;
+            }
+
+            #test6 {
+                cursor: move;
+            }
+
+            #test7 {
+                cursor: no-drop;
+            }
+
+            #test8 {
+                cursor: progress;
+            }
+
+            #test9 {
+                cursor: row-resize;
+            }
+
+
+
+            #invenprop {
+                text-align: center;
+                border-color: white;
+                border: solid;
+                height: 1000px;
+            }
+
+            .glow {
+                font-size: 80px;
+                color: #fff;
+                text-align: center;
+                -webkit-animation: glow 1s ease-in-out infinite alternate;
+                -moz-animation: glow 1s ease-in-out infinite alternate;
+                animation: glow 1s ease-in-out infinite alternate;
+            }
+
+            @-webkit-keyframes glow {
+                from {
+                    text-shadow: 0 0 10px #fff, 0 0 20px #fff, 0 0 30px #e60073, 0 0 40px #e60073, 0 0 50px #e60073, 0 0 60px #e60073, 0 0 70px #e60073;
+                }
+                
+                to {
+                    text-shadow: 0 0 20px #fff, 0 0 30px #ff4da6, 0 0 40px #ff4da6, 0 0 50px #ff4da6, 0 0 60px #ff4da6, 0 0 70px #ff4da6, 0 0 80px #ff4da6;
+                }
+            }
+       
+            body {
+                background-color: black ;
+            }    
+        </style>
+        <script>
+            window.addEventListener('keydown', e => {
+				switch (e.key) {
+					case 'i':
+					case 'I':
+					openInventory();
+					break
+				}
+			});
+
+            window.addEventListener('keydown', e => {
+				switch (e.key) {
+					case 'a':
+					case 'A':
+					Attack();
+					break
+				}
+			});
+
+
+            let WoodenSword = []
+            WoodenSword.Name = "WoodenSword";
+            WoodenSword.Dmg = 1;
+
+            let player = {}
+            player.Health = 100;
+            player.Inventory = [WoodenSword];
+            player.ActiveWeapon = player.Inventory[0];
+
+            function Attack() {
+               document.getElementById("a").innerText = player.ActiveWeapon.Dmg; 
+               let Attacking = document.getElementById("a")
+               if (Attacking.style.display === "none") {
+                Attacking.style.display = "block";
+				}
+
+            }
+
+
+
+            function openInventory() {
+                console.log(player.ActiveWeapon.Name)
+                let inventoryprop = document.getElementById("invenprop");
+                	if (inventoryprop.style.display === "none") {
+						inventoryprop.style.display = "block";
+					} else {
+                        inventoryprop.style.display = "none";
+                    }
+                
+            }
+        </script>
+    </head>
+    <body>
+        <div id="a" class="glow"></div>
+        <div id="b"></div>
+        <div id="c"></div>
+        <div id="d"></div>
+        <div id="e"></div>
+        <div id="invenprop" style="display: none;" class="glow"></div>
+        <input type="button" id="test">
+        <input type="button" id="test1">
+        <input type="button" id="test2">
+        <input type="button" id="test3">
+        <input type="button" id="test4">
+        <input type="button" id="test5">
+        <input type="button" id="test6">
+        <input type="button" id="test7">
+        <input type="button" id="test8">
+        <input type="button" id="test9">
+    </body>
+</html>

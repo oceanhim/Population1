@@ -1,0 +1,245 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <style>
+            #charTemplateHeading {
+                text-align: center;
+                font-size: 75px;
+            }
+        
+            #CharTemplate {
+                text-align: center;
+                font-size: 25px;
+            }
+        
+            .genbtn {
+                cursor: pointer;
+            }
+
+            #labelForBackgroundsetting {
+                font-size: large;
+                text-align: center;
+            }
+        
+            #changeUsernametxt {
+                padding: 5px;
+                width: 200px;
+            }
+
+            #changePasswordtxt {
+                padding: 5px;
+                width: 200px;
+            }
+        </style>
+
+    </head>
+    <body onload="playAudio()">
+        <audio id="myAudio" >
+            <source src="ShaneMusic.mp3" type="audio/mpeg" >
+        </audio>
+        <div id="everythingVisible" style="display: block;">    
+            <input type="button" id="settingsbtn" value="Settings" onclick="openSettings()" class="genbtn">
+            <div id="allHTML" style="display: block;">
+                <div id="CharTemplateHeader">
+                    <h1 id="charTemplateHeading">Character Template</h1>
+                </div>
+                <br>
+                <div id="CharTemplate">
+                    <ol>
+                        <li>Name</li>
+                        <li>Gender</li>
+                        <li>Age</li>
+                        <li>Skin Color</li>
+                        <li>Looks</li>
+                        <li>Where they are from/Culture</li>
+                        <li>Their religion (optional)</li>
+                        <li>Their current culture</li>
+                        <li>Their job (if they have one) or what they do/specialize in</li>
+                        <li>Background</li>
+                        <li>Hobbies</li>
+                        <li>Proficiences (Things your character is good at)</li>
+                    </ol>
+                    <li>More will be added later! Suggestions are highly appreciated!</li>
+                </div>
+                <input type="button" value="View your characters" onclick="openCharacters()" id="viewchars" class="genbtn">
+                <br>
+                <br>
+                <input type="button" value="Click Counter" id="clickCounterbtn" onclick="clickCounter()" class="genbtn">
+                <div id="clickerCounter"></div>
+                <br>
+                <br>
+                <br>
+                <br>
+                <br>
+                <input type="button" id="createCharbtn" value="Create Character" onclick="createACharacter()" class="genbtn">
+            </div>
+            <div id="settingspopup" style="display: none;">
+                <br>
+                <label id="labelForBackgroundsetting" for="changeColorOfBackground">Background Color: </label>
+                <input type="color" id="changeColorOfBackground" value="#ff0000" onblur="changebackgroundcolor()" class="genbtn">
+                <br>
+                <br>
+                <label for="changeColorOfTxt" id="TXTLabel">Text Color: </label>
+                <input type="color" id="changeColorOfTxt" value="#ff0000" onblur="changeColorOfTXT()" class="genbtn">
+                <br>
+                <br>
+                <label for="changeColorOfBTNBACG" id="BCGCLabel">Background Of Buttons Color: </label>
+                <input type="color" id="changeColorOfBTNBACG" value="#ff0000" onblur="changeBTNSBCGC()" class="genbtn">
+                <br>
+                <br>
+                <input type="button" id="changeAccountSettingsbtnUsername" value="Change Username" onclick="changeUsername()" class="genbtn">
+                <input type="text" id="changeUsernametxt" placeholder="Type your new Username here" style="display: none;">
+                <input type="button" id="subnewusername" value="Submit" onclick="subNewUsername()" style="display: none;" class="genbtn">
+                <br>
+                <br>
+                <input type="button" id="changeAccountSettingsbtnPassword" value="Change Password" onclick="changePassword()" class="genbtn">
+                <input type="password" id="changePasswordtxt" placeholder="Type your new Password here" style="display: none;">
+                <input type="button" id="subnewpassword" value="Submit" onclick="subNewPassword()" style="display: none;" class="genbtn"> 
+                <br>
+                <br>
+                <input type="button" id="showUsersInfo" value="Account Info" onclick="showAccountInfo()" class="genbtn">
+                <div id="AccountInfo" style="display: none;"></div>
+            </div>
+        </div>
+        <script>
+            function openCharacters() {
+
+            }
+        
+            function clickCounter() {
+                if (typeof(Storage) !== "undefined") {
+                    if (localStorage.clickcount) {
+                    localStorage.clickcount = Number(localStorage.clickcount)+1;
+                    } else {
+                    localStorage.clickcount = 1;
+                    }
+                    document.getElementById("clickerCounter").innerHTML = "You have clicked the button " + localStorage.clickcount + " time(s).";
+                } else {
+                    document.getElementById("clickerCounter").innerHTML = "Sorry, your browser does not support web storage...";
+                }
+            }
+        
+            function openSettings() {
+                let wholePage = document.getElementById("allHTML");
+                if(wholePage.style.display === "block") {
+                    wholePage.style.display = "none";
+                } else {
+                    wholePage.style.display = "block";
+                }
+            
+                let settingsPage = document.getElementById("settingspopup");
+                if(settingsPage.style.display === "none") {
+                    settingsPage.style.display = "block";
+                } else {
+                    settingsPage.style.display = "none";
+                }
+            }
+        
+            function createACharacter() {
+                window.location='file:///C:/_code/JSpractices/Games/Akinator/HTML/Akinator.html';
+            }
+            
+
+
+            function changeBTNSBCGC() {
+                let BCGC = document.getElementById("changeColorOfBTNBACG").value;
+                document.getElementById("changeAccountSettingsbtnUsername").style.backgroundColor = BCGC;
+            }
+
+            function changebackgroundcolor() {
+                let backgroundColorbtn = document.getElementById("changeColorOfBackground").value;
+                document.body.style.backgroundColor = backgroundColorbtn;
+            }
+        
+            function changeColorOfTXT() {
+                let txtColorbtn = document.getElementById("changeColorOfTxt").value;
+                let AccountInfotxt = document.getElementById("AccountInfo").innerHTML;
+                let coloroftxt = txtColorbtn; 
+                document.getElementById("AccountInfo").style.color = coloroftxt;
+                document.getElementById("CharTemplate").style.color = coloroftxt;
+                document.getElementById("CharTemplateHeader").style.color = coloroftxt;
+                document.getElementById("labelForBackgroundsetting").style.color = coloroftxt; 
+                document.getElementById("TXTLabel").style.color = coloroftxt;  
+                document.getElementById("clickerCounter").style.color = coloroftxt;
+                document.getElementById("BCGCLabel").style.color = coloroftxt;
+            }
+
+            function changeUsername() {
+                let usernamechngtxt = document.getElementById("changeUsernametxt");
+                if(usernamechngtxt.style.display === "none") {
+                    usernamechngtxt.style.display = "block";
+                } else {
+                    usernamechngtxt.style.display = "none";
+                }
+                let usernamesubbtn = document.getElementById("subnewusername");
+                if(usernamesubbtn.style.display === "none") {
+                    usernamesubbtn.style.display = "block";
+                } else {
+                    usernamesubbtn.style.display = "none";
+                }
+                
+            }
+            
+            function subNewUsername() {
+                let curUsername = localStorage.getItem("UsersChosenName");
+                let txtvalue = document.getElementById("changeUsernametxt").value;
+                let newUsername = txtvalue;
+                localStorage.setItem("UsersChosenName", newUsername);
+                document.getElementById("changeUsernametxt").value = '';
+                alert(`Congradulations! Your new username is ${newUsername}`)
+            }
+
+            function changePassword() {
+                let passwordchngtxt = document.getElementById("changePasswordtxt");
+                if(passwordchngtxt.style.display === "none") {
+                    passwordchngtxt.style.display = "block";
+                } else {
+                    passwordchngtxt.style.display = "none";
+                }
+                let passwordsubbtn = document.getElementById("subnewpassword");
+                if(passwordsubbtn.style.display === "none") {
+                    passwordsubbtn.style.display = "block";
+                } else {
+                    passwordsubbtn.style.display = "none";
+                }
+                
+            }
+            
+            let updateAccountInterval = setInterval(updateUserInfo, 1000);
+
+            function subNewPassword() {
+                let curPassword = localStorage.getItem("UsersChosenPassword");
+                let txtvalue = document.getElementById("changePasswordtxt").value;
+                let newPassword = txtvalue;
+                localStorage.setItem("UsersChosenPassword", newPassword);
+                document.getElementById("changePasswordtxt").value = '';
+                alert(`Congradulations! Your new Password is ${newPassword}`)
+            }
+
+            function updateUserInfo() {
+                return document.getElementById("AccountInfo").innerHTML = 
+                `Username: ${localStorage.getItem("UsersChosenName")} <br> Password: ${localStorage.getItem("UsersChosenPassword")}`;
+            }
+
+            function showAccountInfo() {
+                let accounttxt = document.getElementById("AccountInfo");
+                if(accounttxt.style.display === "none") {
+                    accounttxt.style.display = "block";
+                } else {
+                    accounttxt.style.display = "none";
+                }
+            }
+
+            let musicOnload = document.getElementById("myAudio");
+
+            function playAudio() { 
+                musicOnload.play(); 
+            } 
+
+            function pauseAudio() { 
+                musicOnload.pause(); 
+            } 
+
+        </script>        
+    </body>
+</html>
