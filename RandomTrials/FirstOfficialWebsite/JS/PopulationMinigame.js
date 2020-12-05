@@ -9,7 +9,6 @@
 
 /* Things I need to do
 * I need to add achievements/goals
-* Make sure you can toggle the building options and Job Info on and off
 * I need to fix the glitch where if you build two or more of the same building and add one worker to only one of the buildings, it counts as two workers and both get a worker, like one willager at two places at once
 * I am going to create classes like "Admin" and "Beta-Tester"
 */

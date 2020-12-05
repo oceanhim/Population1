@@ -4,11 +4,11 @@
 
 function login() {
     let creationDivEnter = document.getElementById("userInfoLoginDiv")
-    creationDivEnter.style.display = "block"
-    // if(creationDivEnter.style.display == "none") {
-    //     creationDivEnter.style.display = "block"
-    // }
-    // creationDivEnter.style.display = "none"
+    if(creationDivEnter.style.display == "none") {
+        creationDivEnter.style.display = "block"
+    } else {
+        creationDivEnter.style.display = "none"
+    }
 }
 
 let loginAttempt = 0
@@ -78,7 +78,11 @@ function subForm() {
 
 function signUp() {
     let creationDiv = document.getElementById("userInfoCreationDiv")
-    creationDiv.style.display = "block"
+    if(creationDiv.style.display == "none") {
+        creationDiv.style.display = "block"
+    } else {
+        creationDiv.style.display = "none"
+    }
 }
 
 function subCreationInfo() {
