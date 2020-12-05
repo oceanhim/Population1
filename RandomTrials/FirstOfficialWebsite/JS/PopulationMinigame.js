@@ -9,7 +9,6 @@
 
 /* Things I need to do
 * I need to update the span for working so everytime I want to take away or add someone to the job, it updates right away
-* I need to add Water Mills so the villagers can get more water
 * I need to add achievements/goals
 */
 
