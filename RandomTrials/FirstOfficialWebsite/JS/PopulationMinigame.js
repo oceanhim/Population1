@@ -369,3 +369,6 @@ function showHandbook() {
     }
 }
 
+function autoset() {
+    localStorage.setItem("PopulationHighScore", Village.PopulationHighScore)
+}
