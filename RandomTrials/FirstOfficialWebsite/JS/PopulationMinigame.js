@@ -13,12 +13,6 @@
 * I need to add achievements/goals
 */
 
-function startGame() {
-    let highscorePop = localStorage.getItem("PopulationHighScore");
-    Village.PopulationHighScore = highscorePop;
-    gameloop();
-}
-
 let VillagerConsumptionTime;
 /* Recource Collection
 ---------------------------------------------------------------------------------------------*/
@@ -357,6 +351,19 @@ function saveGame() {
     }
 }
 
+function autoset() {
+    if(Village.Population > Village.PopulationHighScore) {
+        Village.PopulationHighScore = Village.Population
+        localStorage.setItem("PopulationHighScore", Village.PopulationHighScore)
+    }
+}
+
+function startGame() {
+    let highscorePop = localStorage.getItem("PopulationHighScore");
+    Village.PopulationHighScore = highscorePop;
+    gameloop();
+}
+
 /* Other
 ---------------------------------------------------------------------------------------------*/
 
@@ -366,12 +373,5 @@ function showHandbook() {
         handook.style.display = "block"
     } else {
         handook.style.display = "none";
-    }
-}
-
-function autoset() {
-    if(Village.Population > Village.PopulationHighScore) {
-        Village.PopulationHighScore = Village.Population
-        localStorage.setItem("PopulationHighScore", Village.PopulationHighScore)
     }
 }
