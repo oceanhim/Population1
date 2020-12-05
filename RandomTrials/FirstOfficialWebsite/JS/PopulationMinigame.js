@@ -12,7 +12,6 @@
 * Make sure you can toggle the building options and Job Info on and off
 * I need to fix the glitch where if you build two or more of the same building and add one worker to only one of the buildings, it counts as two workers and both get a worker, like one willager at two places at once
 * I am going to create classes like "Admin" and "Beta-Tester"
-* Add upgrades.
 */
 
 let VillagerConsumptionTime;
@@ -77,7 +76,7 @@ function initBuilding(Name, Health, Beds, Size, Capacity, BuildCostWood, BuildCo
 let Village = {}
 Village.Name = `My Village`;
 Village.Population = 1;
-Village.Money = 0;
+Village.Money = 100;
 Village.AverageHappiness = 100;
 Village.FoodSupply = 0
 Village.WaterSupply = 0;
@@ -94,6 +93,17 @@ Village.Idle = Village.Population;
 
 /* Buy Buildings
 ---------------------------------------------------------------------------------------------*/
+
+function showBuildings() {
+    let buildingsp = document.getElementById("constructiondiv");
+    if (buildingsp.style.display === "none") {
+        buildingsp.style.display = "block";
+    } else {
+        buildingsp.style.display = "none";
+    }
+
+    learnAppend();
+}
 
 function learnAppend(){
     let conta = document.getElementById("constructiondiv");
@@ -258,6 +268,17 @@ function buildHome(item) {
 /* Jobs
 ---------------------------------------------------------------------------------------------*/
 
+function OpenJobs () {
+    let jobs = document.getElementById("jobsDiv");
+    if (jobs.style.display === "none") {
+        jobs.style.display = "block";
+    } else {
+        jobs.style.display = "none";
+    }
+
+    showJobs();
+}
+
 let totalWorking = 0;
 let jobspang = document.getElementById("jobspan");
 
@@ -369,6 +390,92 @@ function startGame() {
     let highscorePop = localStorage.getItem("PopulationHighScore");
     Village.PopulationHighScore = highscorePop;
     warrningToggle();
+}
+
+/* Upgrades
+---------------------------------------------------------------------------------------------*/
+let woodBoostCommon = {};
+woodBoostCommon.Name = "Common Wood Boost";
+woodBoostCommon.Cost = 10;
+woodBoostCommon.Boost = 50;
+let woodBoostRare = {}
+woodBoostRare.Name = "Rare Wood Boost";
+woodBoostRare.Cost = 25;
+woodBoostRare.Boost = 100;
+let woodBoostLegendary = {}
+woodBoostLegendary.Name = "Legendary Wood Boost";
+woodBoostLegendary.Boost = 200;
+woodBoostLegendary.Cost = 50;
+let stoneBoostCommon = {}
+stoneBoostCommon.Name = "Common Stone Boost";
+stoneBoostCommon.Cost = 10;
+stoneBoostCommon.Boost = 50;
+let stoneBoostRare = {}
+stoneBoostRare.Name = "Rare Stone Boost";
+stoneBoostRare.Cost = 25;
+stoneBoostRare.Boost = 100;
+let stoneBoostLegendary = {}
+stoneBoostLegendary.Name = "Legendary Stone Boost";
+stoneBoostLegendary.Cost = 100;
+stoneBoostLegendary.Boost = 250;
+let ironBoostCommon = {}
+ironBoostCommon.Name = "Common Iron Boost";
+ironBoostCommon.Cost = 10;
+ironBoostCommon.Boost = 50;
+let ironBoostRare = {}
+ironBoostRare.Name = "Rare Iron Boost";
+ironBoostRare.Cost = 25;
+ironBoostRare.Boost = 100;
+let ironBoostLegendary = {}
+ironBoostLegendary.Name = "Legendary Iron Boost";
+ironBoostLegendary.Cost = 100;
+ironBoostLegendary.Boost = 250;
+
+let upgradesArray = [woodBoostCommon, woodBoostRare, woodBoostLegendary, stoneBoostCommon, stoneBoostRare, stoneBoostLegendary, ironBoostCommon, ironBoostRare, ironBoostLegendary]
+
+function buyUpgrade(booster) {
+    if(Village.Money >= upgrade.Cost) {
+        if(booster.Name == "Common Wood Boost" || booster.Name == "Rare Wood Boost" || booster.Name == "Legendary Wood Boost") {
+            Village.Wood += booster.Boost;
+            Village.Money -= booster.Cost;
+            Village.Money -= booster.Cost;
+        }
+        if(booster.Name == "Common Stone Boost" || booster.Name == "Rare Stone Boost" || booster.Name == "Legendary Stone Boost") {
+            Village.Stone += booster.Boost;
+            Village.Money -= booster.Cost;
+        }
+        if(booster.Name == "Common Iron Boost" || booster.Name == "Rare Iron Boost" || booster.Name == "Legendary Iron Boost") {
+            Village.Iron += booster.Boost;
+            Village.Money -= booster.Cost;
+        }
+    }
+}
+
+function OpenUpgrades () {
+    let upgrades = document.getElementById("upgradesDiv");
+    if (upgrades.style.display === "none") {
+        upgrades.style.display = "block";
+    } else {
+        upgrades.style.display = "none";
+    }
+
+    openUpgradeOptions();
+}
+
+function openUpgradeOptions() {
+    let conta = document.getElementById("upgradesDiv");
+    conta.innerHTML = '';
+    upgradesArray.forEach(element => {
+        let mydiv = document.createElement("div");
+        let mybutton= document.createElement("input");
+            mybutton.classList.add('bootstrap-imatation');
+            mybutton.type='button';
+            mybutton.value = "Buy " + element.Name + " for " + element.Cost + " Coins"
+            mybutton.addEventListener("click", (e)=>{buyUpgrade(element);})
+            
+        mydiv.appendChild(mybutton);
+        conta.appendChild(mydiv);  
+    });
 }
 
 /* Other
