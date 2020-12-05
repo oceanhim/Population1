@@ -370,5 +370,8 @@ function showHandbook() {
 }
 
 function autoset() {
-    localStorage.setItem("PopulationHighScore", Village.PopulationHighScore)
+    if(Village.Population > Village.PopulationHighScore) {
+        Village.PopulationHighScore = Village.Population
+        localStorage.setItem("PopulationHighScore", Village.PopulationHighScore)
+    }
 }
