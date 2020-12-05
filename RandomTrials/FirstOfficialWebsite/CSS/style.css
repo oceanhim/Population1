@@ -94,3 +94,7 @@ h1 {
 /* #containerBG:hover {
     cursor: no-drop;
 } */
+
+#beforeGamediv {
+    font-weight: 900;
+}

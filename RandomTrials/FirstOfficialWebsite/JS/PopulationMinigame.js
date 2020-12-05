@@ -249,7 +249,7 @@ function buildHome(item) {
     }
 }
 
-/* Construction
+/* Jobs
 ---------------------------------------------------------------------------------------------*/
 
 let totalWorking = 0;
@@ -361,7 +361,6 @@ function autoset() {
 function startGame() {
     let highscorePop = localStorage.getItem("PopulationHighScore");
     Village.PopulationHighScore = highscorePop;
-    gameloop();
 }
 
 /* Other
@@ -374,4 +373,13 @@ function showHandbook() {
     } else {
         handook.style.display = "none";
     }
+}
+
+function gameSequencesStart() {
+    let startBtn = document.getElementById("startbtn")
+    startBtn.style.display = "none";
+    let startDiv = document.getElementById("beforeGamediv")
+    startDiv.style.display = "none";
+    gameloop();
+    alert(`Game Started!`)
 }
