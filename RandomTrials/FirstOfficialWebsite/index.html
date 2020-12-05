@@ -35,7 +35,8 @@
                     <div class="tab-content">
                     <div id="home" class="tab-pane fade in active">
                         <h2>HOME</h2>
-                        <h3>My First Official Webiste</h3>
+                        <h3>My First Official Website</h3>
+                        <div id="warningToLogin">Since you are not signed in yet, your progress on our Website will not be saved. If you want your progress to be saved then login please. Thank you!</div>
                     </div>
                     <div id="menu1" class="tab-pane fade">
                         <h3>Promotion Application</h3>
@@ -109,7 +110,7 @@
                                 <h3>Minecraft</h3>
                                 <div id="promoApplication">
                                     <a href="https://www.minecraft.net/en-us" target="_" alt="Minecraft Website" title="Minecraft Website" >
-                                    <h1>Minecraft Official Webiste</h1>
+                                    <h1>Minecraft Official Website</h1>
                                     <img src="Images/Minecraft.jpg" alt="Minecraft">
                                     </a>
                                 </div>
@@ -118,7 +119,7 @@
                                 <h3>Echo VR</h3>
                                 <div id="Supportstat">   
                                     <a href="https://www.oculus.com/echo-vr/" target="_" alt="echo-vr" title="echo-vr" >
-                                        <h1>Echo VR - Oculus Official Webiste</h1>
+                                        <h1>Echo VR - Oculus Official Website</h1>
                                         <img src="Images/EchoVR.jpg" alt="Echo VR">
                                     </a>
                                 </div> 
@@ -169,10 +170,34 @@
                     <div id="menu4" class="tab-pane fade">
                         <h3>Login</h3>
                         <input type="button" value="Login" id="loginBtn" class="btn btn-info btn-lg" onclick="login()">
+                        <div id="userInfoLoginDiv" style="display: none;">
+                            <label for="usertxtboxEnter">Username: </label>
+                            <input type="text" placeholder="type your username here..." id="usernametxtboxEnter" name="usertxtboxEnter">
+                            <br>
+                            <br>
+                            <label for="passtxtboxEnter">Password: </label>
+                            <input type="password" placeholder="type your password here..." id="passwordtxtboxEnter" name="passtxtboxEnter">
+                            <br>
+                            <br>
+                            <input type="button" value="Submit" id="subcreationbtn" class="btn btn-info btn-lg" onclick="checkEnter()">
+                        </div>
                     </div>
                     <div id="menu5" class="tab-pane fade">
                         <h3>Sign Up</h3>
-                        <input type="button" value="Sign Up" id="signUpBtn" class="btn btn-info btn-lg" onclick="createAccount()">
+                        <input type="button" value="Sign Up" id="SignUpBtn" class="btn btn-info btn-lg" onclick="signUp()">
+                        <br>
+                        <br>
+                        <div id="userInfoCreationDiv" style="display: none;">
+                            <label for="usertxtbox">Username: </label>
+                            <input type="text" placeholder="type your username here..." id="usernametxtbox" name="usertxtbox">
+                            <br>
+                            <br>
+                            <label for="passtxtbox">Password: </label>
+                            <input type="password" placeholder="type your password here..." id="passwordtxtbox" name="passtxtbox">
+                            <br>
+                            <br>
+                            <input type="button" value="Submit" id="subcreationbtn" class="btn btn-info btn-lg" onclick="subCreationInfo()">
+                        </div>
                     </div>
                     </div>
                 </div>

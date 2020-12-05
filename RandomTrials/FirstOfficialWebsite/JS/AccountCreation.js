@@ -1,10 +1,42 @@
-function createAccount() {
-    let iD = Math.floor((Math.random() * 10000) + 1)
-}
+
+/* Logging in
+---------------------------------------------------------------------------------------------*/
 
 function login() {
-
+    let creationDivEnter = document.getElementById("userInfoLoginDiv")
+    creationDivEnter.style.display = "block"
+    // if(creationDivEnter.style.display == "none") {
+    //     creationDivEnter.style.display = "block"
+    // }
+    // creationDivEnter.style.display = "none"
 }
+
+let loginAttempt = 0
+let loggedIn = false
+localStorage.setItem("loggedInYesOrNo", loggedIn)
+
+function checkEnter() {
+    let userNametxtEnter = document.getElementById("usernametxtboxEnter").value
+    let passwordtxtEnter = document.getElementById("passwordtxtboxEnter").value
+    let retrievedUser = localStorage.getItem("UserInfoPop")
+    let retrievedPass = localStorage.getItem("PassInfoPop")
+    if(isNaN(userNametxtEnter) && isNaN(passwordtxtEnter) && passwordtxtEnter !== '' && passwordtxtEnter !== '' && loginAttempt < 5) {
+        if(userNametxtEnter == retrievedUser && passwordtxtEnter == retrievedPass) {
+            alert(`Epic, You have logged in successfully! You progress in Population 1 will now be saved.`)
+            loggedIn = true;
+            localStorage.setItem("loggedInYesOrNo", loggedIn)
+            warrningToggle();
+        } else {
+            loginAttempt++;
+            alert(`Please try again`)
+        }
+    } else {
+        alert(`You have either tried to login too many times, or you have entered invalid data.`)
+    }
+}
+
+/* Mod Application
+---------------------------------------------------------------------------------------------*/
 
 function refreshFrom() {
     let errorTXT = document.getElementById("errorDisplay")
@@ -38,5 +70,25 @@ function subForm() {
                 subCounter += 1
             }
         }
+    }
+}
+
+/* Signing Up
+---------------------------------------------------------------------------------------------*/
+
+function signUp() {
+    let creationDiv = document.getElementById("userInfoCreationDiv")
+    creationDiv.style.display = "block"
+}
+
+function subCreationInfo() {
+    let userNametxt = document.getElementById("usernametxtbox").value
+    let passwordtxt = document.getElementById("passwordtxtbox").value
+    if(isNaN(userNametxt) && isNaN(passwordtxt) && userNametxt !== '' && passwordtxt !== '') {
+        localStorage.setItem("UserInfoPop", userNametxt)
+        localStorage.setItem("PassInfoPop", passwordtxt)
+        alert(`Thanks for signing up! You can now log in and have your progress saved on our website!`)
+    } else {
+        alert(`Please enter valid data.`)
     }
 }

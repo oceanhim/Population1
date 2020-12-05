@@ -9,11 +9,10 @@
 
 /* Things I need to do
 * I need to add achievements/goals
-* The game will only save if you are signed in to the website
 * Make sure you can toggle the building options and Job Info on and off
 * I need to fix the glitch where if you build two or more of the same building and add one worker to only one of the buildings, it counts as two workers and both get a worker, like one willager at two places at once
 * I am going to create classes like "Admin" and "Beta-Tester"
-* I need to fix the gameloop function
+* Add upgrades.
 */
 
 let VillagerConsumptionTime;
@@ -179,6 +178,12 @@ function youLose() {
     
 }
 
+function checkPopulation() {
+    if(typeof Village.Population == String) {
+        console.log(`Now`)
+    }
+}
+
 function villagersEat() {
     if(Village.FoodSupply < Village.Population || Village.WaterSupply < Village.Population / 2) {
         clearInterval(VillagerConsumptionTime)
@@ -190,7 +195,6 @@ function villagersEat() {
     }
 }
 
-setInterval(gameloop, 100)
 // setInterval(checkAchievements, 100)
 
 let loopCount = 0;
@@ -202,13 +206,10 @@ function gameloop(){
     ItemDiscovered();
     updateVillage();
     showVillage();
-    if(loopCount == 5000){
+    checkPopulation();
+    if(loopCount == 150){
         // do evey 100 ms items
         collectRecources();
-    }
-
-    if(loopCount==10000){
-        // do every 10k item
         saveGame();
         loopCount=0;
     }
@@ -247,7 +248,8 @@ function buildHome(item) {
                 Village.AreaLeft -= item.Size;
                 Village.Population += item.Beds;
                 Village.Idle = Village.Population;
-                playAudio();
+                console.log(typeof Village.Population);
+                // playAudio();
             }
         }
     }
@@ -346,17 +348,18 @@ let achievementsPop = [SmallNeighborhood, SmallVillage, FlourishingVillage, Envi
 function setPopToHighscore() {
     let highscorePop = localStorage.getItem("PopulationHighScore");
     Village.Population = highscorePop;
+    Village.Idle = Village.Population
 }
 
 function saveGame() {
-    if(Village.Population > Village.PopulationHighScore) {
+    if(Village.Population > Village.PopulationHighScore && loggedIn == true) {
         Village.PopulationHighScore = Village.Population;
         localStorage.setItem("PopulationHighScore", Village.PopulationHighScore);
     }
 }
 
 function autoset() {
-    if(Village.Population > Village.PopulationHighScore) {
+    if(Village.Population > Village.PopulationHighScore && loggedIn == true) {
         Village.PopulationHighScore = Village.Population
         localStorage.setItem("PopulationHighScore", Village.PopulationHighScore)
     }
@@ -365,6 +368,7 @@ function autoset() {
 function startGame() {
     let highscorePop = localStorage.getItem("PopulationHighScore");
     Village.PopulationHighScore = highscorePop;
+    warrningToggle();
 }
 
 /* Other
@@ -384,6 +388,15 @@ function gameSequencesStart() {
     startBtn.style.display = "none";
     let startDiv = document.getElementById("beforeGamediv")
     startDiv.style.display = "none";
-    gameloop();
+    setInterval(gameloop, 100)
     alert(`Game Started!`)
+}
+
+function warrningToggle() {
+    let warningDivShow = document.getElementById("warningToLogin")
+    if(loggedIn == true) {
+        warningDivShow.style.display = "none"
+    } else {
+        warningDivShow.style.display = "block"
+    }
 }
