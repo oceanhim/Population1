@@ -10,6 +10,9 @@
 /* Things I need to do
 * I need to update the span for working so everytime I want to take away or add someone to the job, it updates right away
 * I need to add achievements/goals
+* The game will only save if you are signed in to the website
+* Make sure you can toggle the building options on and off
+* I need to fix the glitch where if you build to farms and add one worker to one of the farms, it counts as two workers
 */
 
 let VillagerConsumptionTime;
@@ -151,6 +154,7 @@ function collectRecources() {
     Village.Stone += Quarry.FilledWorkSlots;
     Village.Iron += IronMine.FilledWorkSlots;
     Village.FoodSupply += Farm.FilledWorkSlots;
+    Village.FoodSupply += Orchard.FilledWorkSlots * 2;
     Village.WaterSupply += WaterMill.FilledWorkSlots;
     Village.WaterSupply += WaterPlantation.FilledWorkSlots * 2;
 }
@@ -180,8 +184,8 @@ function villagersEat() {
         alert(`Your people don't have enough food or water to sustain them!`)
         let deathTimeout = setTimeout(youLose, 60000)
     } else {
-        Village.FoodSupply -= Village.Population;
-        Village.WaterSupply -= Village.Population;
+        Village.FoodSupply -= (Village.Population / 2);
+        Village.WaterSupply -= (Village.Population / 2);
     }
 }
 
