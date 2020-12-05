@@ -30,9 +30,10 @@ let Farm = initWorkStation("Farm",30,5,10,30,10,0,0,0,true,0, false);
 let Orchard = initWorkStation("Orchard",60,10,20,60,20,5,2,0,true,0, false);
 let Tavern = initWorkStation("Tavern",70,3,20,60,25,10,3,0,true,0, false);
 let WaterMill = initWorkStation("Water Mill",50,4,20,0,15,5,0,0,true,0, false);
+let WaterPlantation = initWorkStation("Water Plantation",150,10,40,0,30,10,5,2,true,0, false);
 
 
-let JobsArray = [TimberHouse, Quarry, IronMine, Farm, Orchard, Tavern, WaterMill]
+let JobsArray = [TimberHouse, Quarry, IronMine, Farm, Orchard, Tavern, WaterMill, WaterPlantation]
 let JobsArrayActive = [];
 
 function initWorkStation(Name, Health, WorkSlots, Size, Capacity, BuildCostWood, BuildCostStone, BuildCostIron, BuildCostGold, Discovered, FilledWorkSlots, Built){
@@ -86,7 +87,7 @@ Village.FoodSupply = 0
 Village.WaterSupply = 0;
 Village.Area = 100;
 Village.AreaLeft = 100
-Village.Buildings = [Hut, Cottage, WaterMill, Clinic, Mansion, taxCollecter, TimberHouse, Quarry, IronMine, Farm, Orchard];
+Village.Buildings = [Hut, Cottage, WaterMill, Clinic, Mansion, taxCollecter, TimberHouse, Quarry, IronMine, Farm, Orchard, WaterPlantation];
 Village.Recources = [Village.Wood, Village.Stone, Village.Iron]
 Village.Wood = 20;
 Village.Stone = 10;
@@ -158,6 +159,7 @@ function collectRecources() {
     Village.Iron += IronMine.FilledWorkSlots;
     Village.FoodSupply += Farm.FilledWorkSlots;
     Village.WaterSupply += WaterMill.FilledWorkSlots;
+    Village.WaterSupply += WaterPlantation.FilledWorkSlots * 2;
 }
 
 function updateVillage() {
@@ -180,7 +182,7 @@ function youLose() {
 }
 
 function villagersEat() {
-    if(Village.FoodSupply < Village.Population || Village.WaterSupply < Village.Population) {
+    if(Village.FoodSupply < Village.Population || Village.WaterSupply < Village.Population / 2) {
         clearInterval(VillagerConsumptionTime)
         alert(`Your people don't have enough food or water to sustain them!`)
         let deathTimeout = setTimeout(youLose, 60000)
