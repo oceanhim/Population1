@@ -8,11 +8,12 @@
 */ 
 
 /* Things I need to do
-* I need to update the span for working so everytime I want to take away or add someone to the job, it updates right away
 * I need to add achievements/goals
 * The game will only save if you are signed in to the website
-* Make sure you can toggle the building options on and off
-* I need to fix the glitch where if you build to farms and add one worker to one of the farms, it counts as two workers
+* Make sure you can toggle the building options and Job Info on and off
+* I need to fix the glitch where if you build two or more of the same building and add one worker to only one of the buildings, it counts as two workers and both get a worker, like one willager at two places at once
+* I am going to create classes like "Admin" and "Beta-Tester"
+* I need to fix the gameloop function
 */
 
 let VillagerConsumptionTime;
@@ -263,7 +264,7 @@ function addToJob(e) {
         e.FilledWorkSlots += 1;
         totalWorking += 1;
         Village.Idle -= 1;
-        // jobspang.innerHTML = `${e.FilledWorkSlots}/${e.WorkSlots} Slots Filled for the ${e.Name}`
+        showJobs();
     }
 }
 
@@ -272,7 +273,7 @@ function subFromJob(e) {
         e.FilledWorkSlots -= 1;
         totalWorking -= 1;
         Village.Idle += 1;
-        // jobspang.innerHTML = `${e.FilledWorkSlots}/${e.WorkSlots} Slots Filled for the ${e.Name}`
+        showJobs();
     }
 }
 
