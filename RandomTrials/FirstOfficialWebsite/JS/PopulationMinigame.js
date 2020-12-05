@@ -9,19 +9,14 @@
 
 /* Things I need to do
 * I need to update the span for working so everytime I want to take away or add someone to the job, it updates right away
-* I need to add farms and orchards to let the user now gain food
 * I need to add Water Mills so the villagers can get more water
 * I need to add achievements/goals
 */
 
 function startGame() {
-    let VillagerConsumption = setInterval(villagersEat, 60000)
-    VillagerConsumptionTime = VillagerConsumption;
-    let startbtnstart = document.getElementById("startbtn")
-    startbtnstart.style.display = "none"
-    alert(`Game Started!`)
     let highscorePop = localStorage.getItem("PopulationHighScore");
     Village.PopulationHighScore = highscorePop;
+    gameloop();
 }
 
 let VillagerConsumptionTime;
@@ -33,10 +28,11 @@ let Quarry = initWorkStation("Quarry/Stone Mine",100,5,15,50,10,2,0,0,true,0, fa
 let IronMine = initWorkStation("IronMine",150,5,15,30,2,15,0,0,true,0, false);
 let Farm = initWorkStation("Farm",30,5,10,30,10,0,0,0,true,0, false);
 let Orchard = initWorkStation("Orchard",60,10,20,60,20,5,2,0,true,0, false);
-let Tavern = initWorkStation("Tavern",70,3,20,60,20,5,2,0,true,0, false);
+let Tavern = initWorkStation("Tavern",70,3,20,60,25,10,3,0,true,0, false);
+let WaterMill = initWorkStation("Water Mill",50,4,20,0,15,5,0,0,true,0, false);
 
 
-let JobsArray = [TimberHouse, Quarry, IronMine, Farm, Orchard]
+let JobsArray = [TimberHouse, Quarry, IronMine, Farm, Orchard, Tavern, WaterMill]
 let JobsArrayActive = [];
 
 function initWorkStation(Name, Health, WorkSlots, Size, Capacity, BuildCostWood, BuildCostStone, BuildCostIron, BuildCostGold, Discovered, FilledWorkSlots, Built){
@@ -61,7 +57,6 @@ function initWorkStation(Name, Health, WorkSlots, Size, Capacity, BuildCostWood,
 
 let Hut = initBuilding("Hut",5,2,10,5,5,0,0,0,true);
 let Cottage = initBuilding("Cottage",20,5,15,10,10,2,0,0,true);
-let Well = initBuilding("Well",30,0,5,30,5,20,2,0,true);
 let Clinic = initBuilding("Clinic",30,15,50,30,25,15,10,15,true);
 let Mansion = initBuilding("Mansion",1000,20,400,2000,200,150,100,100,false)
 let taxCollecter = initBuilding("Tax Building",50,0,75,150,40,60,20,0,false);
@@ -91,13 +86,14 @@ Village.FoodSupply = 0
 Village.WaterSupply = 0;
 Village.Area = 100;
 Village.AreaLeft = 100
-Village.Buildings = [Hut, Cottage, Well, Clinic, Mansion, taxCollecter, TimberHouse, Quarry, IronMine, Farm, Orchard];
+Village.Buildings = [Hut, Cottage, WaterMill, Clinic, Mansion, taxCollecter, TimberHouse, Quarry, IronMine, Farm, Orchard];
 Village.Recources = [Village.Wood, Village.Stone, Village.Iron]
 Village.Wood = 20;
 Village.Stone = 10;
 Village.Iron = 0;
 Village.Idle = 1;
 Village.PopulationHighScore = 0;
+Village.Idle = Village.Population;
 
 /* Buy Buildings
 ---------------------------------------------------------------------------------------------*/
@@ -157,10 +153,11 @@ function ItemDiscovered() {
 }
 
 function collectRecources() {
-    Village.Wood += TimberHouse.FilledWorkSlots * 2;
-    Village.Stone += Quarry.FilledWorkSlots * 2;
-    Village.Iron += IronMine.FilledWorkSlots * 2;
-    Village.FoodSupply += Farm.FilledWorkSlots * 2;
+    Village.Wood += TimberHouse.FilledWorkSlots;
+    Village.Stone += Quarry.FilledWorkSlots;
+    Village.Iron += IronMine.FilledWorkSlots;
+    Village.FoodSupply += Farm.FilledWorkSlots;
+    Village.WaterSupply += WaterMill.FilledWorkSlots;
 }
 
 function updateVillage() {
@@ -193,13 +190,29 @@ function villagersEat() {
     }
 }
 
+setInterval(gameloop, 100)
 // setInterval(checkAchievements, 100)
-setInterval(saveGame, 10000)
-setInterval(organizeBuildings, 100)
-setInterval(ItemDiscovered, 100)
-setInterval(collectRecources, 5000)
-setInterval(updateVillage, 100)
-setInterval(showVillage, 100)
+
+let loopCount = 0;
+
+function gameloop(){
+    loopCount++;
+    // do evey 100 ms items
+    organizeBuildings();
+    ItemDiscovered();
+    updateVillage();
+    showVillage();
+    if(loopCount == 5000){
+        // do evey 100 ms items
+        collectRecources();
+    }
+
+    if(loopCount==10000){
+        // do every 10k item
+        saveGame();
+        loopCount=0;
+    }
+}
 
 function showVillageStats() {
     let Village = document.getElementById("villageInfo");
@@ -233,7 +246,7 @@ function buildHome(item) {
                 Village.Iron -= item.BuildCostIron;
                 Village.AreaLeft -= item.Size;
                 Village.Population += item.Beds;
-                Village.Idle += item.Beds;
+                Village.Idle = Village.Population;
                 playAudio();
             }
         }
@@ -353,3 +366,4 @@ function showHandbook() {
         handook.style.display = "none";
     }
 }
+
