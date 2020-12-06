@@ -65,16 +65,104 @@
             #genBtn:hover {
                 background-color: turquoise;
             }
+
         </style>
     </head>
     <body>
+
         <h1 id="WrittenTitle">Address Book/Contacts List</h1>
-        <input type="button" id="AddContactButton" onclick="addContact()" value="+">
+        <table width=100% height=100%>
+            <tr>
+                <td> Create a Contact</td>
+            </tr>
+            <tr>
+                <td valign=center align=top>
+                    <table width=100% border="1">
+                        <tr>
+                            <td width=30%>
+                                <table>
+                                    <tr>
+                                        <td>
+                                            First name
+                                        </td>
+                                        <td>
+                                            Last name
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            <input  type="search" id="txtFirstname" />
+                                        </td>
+                                        <td>
+                                            <input  type="search" id="txtLastname" />
+                                        </td>
+                                    </tr>                                  
+                                    <tr>
+                                        <td colspan="2">
+                                            &nbsp;
+                                        </td>
+                                    </tr>  
+                                    <tr>
+                                        <td>
+                                            Phone Number
+                                        </td>
+                                        <td>
+                                            Email
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            <input  type="search" id="txtPhone" />
+                                        </td>
+                                        <td>
+                                            <input  type="search" id="txteeMAIL" />
+                                        </td>
+                                    </tr>                                    
+                                    <TR>
+                                        <td colspan="2" align=right > <input id="cmdClear" type="button" value="Clean" onclick="cleantxtboxes()"/>
+                                            <input id="cmdSave" type="button" value="Save" onclick="createContact()"/>
+                                         </td>
+                                        
+                                    </TR>    
+                                </table>
+                            </td>
+                            <td valign=top align=center>
+                                <div>
+                                    <Table>
+                                        <TR>
+                                            <TD>
+                                                <input id="txtSearch" type="search" /> <input id="Search" type="button" value="Search" />
+                                            </TD>
+                                        </TR>
+                                        <TR>
+                                            <TD>
+                                                <h3>Contacts</h3>
+                                                <select id="lstContacts" >  
+                                                    <option value="Ocean">Ocean</option>
+                                                </select>                                                 
+                                            </TD>
+                                        </TR>                                        
+                                    </Table>
+                                </div>
+                            </td>
+                        </tr>
+                    </table>
+                </td>
+            </tr>            
+            <tr>
+                <td width=100%>
+                    <span id="Contactcountspan"></span>
+                    <span style="border: orange; " align=right ></span>
+                </td>
+            </tr>
+
+        </table>
+        <!-- <input type="button" id="AddContactButton" onclick="addContact()" value="+">
         <span id="addcontactspan">Add Contact</span>
         <input type="button" value="Reload" class="genBtn" id="forceReloadbtn" onclick="ForceReload()">
         <input type="search" id="searchContactsBar" placeholder="Search for a contact here">
         <div id="ContactsList"></div>
         <div id="ContactInfoDisplay"></div>
-        <div id="ErrorDisplay"></div>
+        <div id="ErrorDisplay"></div> -->
     </body>
 </html>

@@ -1,90 +1,88 @@
-//Possibly change for next attempt
-let Contacts = []
 
-function getpromptResponse(promptText){
-    let promptResponse = prompt(promptText);
-    if (promptResponse == null || promptResponse == "") {
-        return "";
+/* Saving The Contact
+--------------------------------------------------------------------------------*/
+let retrievedContacts = localStorage.getItem("ContactsList");
+Contacts = [];
+Contacts = retrievedContacts;
+
+ContactCount = 0;
+
+function createContact() {
+    let fnametxt = document.getElementById("txtFirstname").value;
+    let lnametxt = document.getElementById("txtLastname").value;
+    let phonenumbertxt = document.getElementById("txtPhone").value;
+    let emailtxt = document.getElementById("txteeMAIL").value;
+
+    if(isNaN(fnametxt) && isNaN(lnametxt)) {
+        if(lnametxt !== '' || fnametxt !== '' || phonenumbertxt !== '' || emailtxt !== ''){
+            if(isNaN(phonenumbertxt)) {
+                alert(`Please ebter valid data.`)
+            } else {
+                let Contact = {}
+                Contact.FirstName = fnametxt;
+                Contact.PhoneNumber = phonenumbertxt;
+                Contact.LastName = lnametxt;
+                Contact.Email = emailtxt;
+                Contacts.push(Contact);
+                console.log(Contacts);
+                alert(`Contact Added`)
+                localStorage.setItem("ContactsList", Contacts)
+                // learnAppend();
+            }
+
+        } else {
+            alert(`Please enter valid data`)
+        }
     } else {
-        return promptResponse;
+        alert(`Please enter valid data`)
     }
 }
-function addContact() {
-    let Contact = {}
-    Contact.Name = getpromptResponse("The Contacts Name:")
-    Contact.PhoneNumber = getpromptResponse("The Contacts Phone Number:")
 
-    if(Contact.Name && Contact.PhoneNumber.length > 8){
-        Contacts.push(Contact)
-    }
-    else{
-        alert("please enter valid data");
-    }
-    learnAppend();
-
-    // if (typeof(Storage) !== "undefined") {
-    //     // Store
-    //     localStorage.setItem("ContactsBucket", Contacts);
-    // }
+function updateContactAmount() {
+    ContactCount = Contacts.length;
+    let spanforcount = document.getElementById("Contactcountspan");
+    spanforcount.innerHTML = `Contact Count: ${ContactCount}`
 }
 
-// function addContact2() {
-//     let Contact = {}
-//     Contact.Name;
-//     Contact.PhoneNumber;
-//     let ContactNameChoosing;
-//     let person = prompt("The Contacts Name:");
-//     if (person == null || person == "") {
-//         ContactNameChoosing = "User cancelled the prompt.";
-//     } else {
-//         ContactNameChoosing = "Ok, " + person + "is the Contacts name!";
-//         Contact.Name = person
-//     }
+setInterval(updateContactAmount, 100)
 
-//     let ContactNumberChoosing;
-//     let personNum = prompt("The Contacts Phone Number:");
-//     if (personNum == null || personNum == "") {
-//         ContactNumberChoosing = "User cancelled the prompt.";
-//     } else {
-//         ContactNumberChoosing = "Ok, " + personNum + "is the Contacts Phone Number!";
-//         Contact.PhoneNumber = personNum
-//         Contacts.push(Contact)
-//     }
-    
-//     learnAppend();
+// learnAppend();
 
-    
-// }
-function OpenContactInfo() {
-
-}
-
-function learnAppend(){
-    let conta = document.getElementById("ContactsList");
-    conta.innerHTML = '';
-    Contacts.forEach(element => {
-        let mydiv = document.createElement("div");
-        let mybutton= document.createElement("input");
-            mybutton.classList.add('contactBtn');
-            mybutton.type='button';
-            mybutton.value = element.Name
-            mybutton.addEventListener("click", (e)=>{OpenContactInfo(element);})
-            
-        mydiv.appendChild(mybutton);
-        conta.appendChild(mydiv);     
+// function learnAppend(){
+//     let conta = document.getElementById("lstContacts")
+//     Contacts.forEach(element => {
+//         let myselect = document.createElement("select");
+//         let myoption= document.createElement("option");
+//             myoption.id = "optionValue"
+//             myoption.value = element.Name;
+//             myoption.innerHTML = element.Name;        
         
-    });
-}
+//         myselect.appendChild(myoption);
+//         conta.appendChild(myselect);  
+//     });
+// }
 
-function ForceReload() {
-    learnAppend();
-}
+/* Testing
+--------------------------------------------------------------------------------*/
 
-// function retrieveContactsList() {
-    
-//     if (typeof(Storage) !== "undefined") {
-//         // Retrieve
-//         localStorage.getItem("ContactsBucket");
-//     }
-//     learnAppend();
+// addContactToList();
+
+// function addContactToList() {
+//     let selecttag = document.getElementById("lstContacts")
+//     Contacts.forEach(element => {
+        
+        
+//     });
+// }
+
+
+
+
+
+// function cleantxtboxes(txt1, txt2, txt3, txt4) {
+
+//     txt1 = "type here";
+//     txt2 = "type here";
+//     txt3 = "type here";
+//     txt4 = "type here";
 // }
