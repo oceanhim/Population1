@@ -106,7 +106,7 @@ function showBuildings() {
 
 function learnAppend(){
     let conta = document.getElementById("constructiondiv");
-    conta.innerHTML = '';
+    conta.innerHTML = '';   
     DiscoveredBuildings.forEach(element => {
         let mydiv = document.createElement("div");
         let mybutton= document.createElement("input");
@@ -256,7 +256,7 @@ function buildHome(item) {
                 Village.Iron -= item.BuildCostIron;
                 Village.AreaLeft -= item.Size;
                 Village.Population += item.Beds;
-                Village.Idle = Village.Population;
+                Village.Idle = (Village.Population - totalWorking);
                 console.log(typeof Village.Population);
                 // playAudio();
             }
@@ -278,6 +278,14 @@ function OpenJobs () {
     showJobs();
 }
 
+function subtractIdle() {
+    Village.Idle -= 1;
+}
+
+function addIdle() {
+    Village.Idle += 1;
+}
+
 let totalWorking = 0;
 let jobspang = document.getElementById("jobspan");
 
@@ -285,7 +293,7 @@ function addToJob(e) {
     if(e.FilledWorkSlots < e.WorkSlots && totalWorking < Village.Population)  {
         e.FilledWorkSlots += 1;
         totalWorking += 1;
-        Village.Idle -= 1;
+        subtractIdle();
         showJobs();
     }
 }
@@ -294,7 +302,7 @@ function subFromJob(e) {
     if(e.FilledWorkSlots > 0)  {
         e.FilledWorkSlots -= 1;
         totalWorking -= 1;
-        Village.Idle += 1;
+        addIdle();
         showJobs();
     }
 }
@@ -368,7 +376,7 @@ let achievementsPop = [SmallNeighborhood, SmallVillage, FlourishingVillage, Envi
 function setPopToHighscore() {
     let highscorePop = localStorage.getItem("PopulationHighScore");
     Village.Population = highscorePop;
-    Village.Idle = Village.Population
+    Village.Idle = (Village.Population - totalWorking)
 }
 
 function saveGame() {
