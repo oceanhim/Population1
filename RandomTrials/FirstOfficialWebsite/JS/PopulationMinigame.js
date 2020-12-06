@@ -90,6 +90,57 @@ Village.Idle = 1;
 Village.PopulationHighScore = 0;
 Village.Idle = Village.Population;
 
+/* Taxing
+---------------------------------------------------------------------------------------------*/
+
+function taxVillager() {
+    if(VillagersTaxed < Village.Population) {
+        VillagersTaxed += 1;
+        taxVillagersUpdate();
+    }
+}
+
+function untaxVillager() {
+    if(VillagersTaxed > 0) {
+        VillagersTaxed -= 1;
+        taxVillagersUpdate();
+    }
+}
+
+function OpenTaxingOption () {
+    let taxOptions = document.getElementById("taxDiv");
+    if (taxOptions.style.display == "none") {
+        taxOptions.style.display = "block";
+    } else {
+        taxOptions.style.display = "none";
+    }
+
+    taxVillagersUpdate();
+}
+
+function taxVillagersUpdate() {
+    let conta = document.getElementById("taxDiv");
+    conta.innerHTML = '';
+        let mydiv = document.createElement("div");
+        let myspan= document.createElement("span");
+        let mybutton= document.createElement("input");
+        let mybutton1= document.createElement("input");
+            mybutton.classList.add('bootstrap-imatation');
+            mybutton1.classList.add('bootstrap-imatation');
+            mybutton.type='button';
+            mybutton.value = "+"
+            mybutton.addEventListener("click", (e)=>{taxVillager();})
+            mybutton1.type='button';
+            mybutton1.value = "-"
+            mybutton1.addEventListener("click", (e)=>{untaxVillager();})
+            myspan.textContent = `Villagers taxed out of total Population: ${VillagersTaxed}/${Village.Population}`;
+            
+        mydiv.appendChild(myspan);
+        mydiv.appendChild(mybutton);
+        mydiv.appendChild(mybutton1);
+        conta.appendChild(mydiv);      
+}
+
 /* Buy Buildings
 ---------------------------------------------------------------------------------------------*/
 
@@ -204,6 +255,12 @@ function villagersEat() {
     }
 }
 
+let VillagersTaxed = 0;
+
+function checkTaxing() {
+    Village.Money += (VillagersTaxed/2)
+}
+
 // setInterval(checkAchievements, 100)
 
 let loopCount = 0;
@@ -217,9 +274,10 @@ function gameloop(){
     showVillage();
     checkPopulation();
     if(loopCount == 150){
-        // do evey 100 ms items
+        // do evey 150 ms items
         collectRecources();
         saveGame();
+        checkTaxing();
         loopCount=0;
     }
 }
@@ -497,7 +555,7 @@ function openUpgradeOptions() {
         let mybutton= document.createElement("input");
             mybutton.classList.add('bootstrap-imatation');
             mybutton.type='button';
-            mybutton.value = "Buy " + element.Name + " for " + element.Cost + " Coins"
+            mybutton.value = "Buy " + element.Name + " for " + element.Cost + " Coins which gives you a boost of " + element.Boost
             mybutton.addEventListener("click", (e)=>{buyUpgrade(element);})
             
         mydiv.appendChild(mybutton);
