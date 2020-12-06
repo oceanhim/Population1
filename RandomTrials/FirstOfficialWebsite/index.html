@@ -144,7 +144,12 @@
                                 <input type="button" value="Job Info" class="btn btn-info btn-lg" onclick="OpenJobs()">
                                 <input type="button" value="Upgrades" class="btn btn-info btn-lg" id="upgradesbtn" onclick="OpenUpgrades()">
                                 <div id="upgradesDiv"></div>
-                                <div id="jobsDiv"></div>
+                                <div id="jobsDiv" style="display: none;">
+                                    <div id="nonepremadejobs">
+
+                                    </div>
+                                    <span>Send a villager to go cut down a tree</span> <input type="button" id="sendVillagerbtn" class="bootstrap-imatation" value="Send" onclick="sendVillager()">
+                                </div>
                                 <div id="constructiondiv"></div>
                                 <br>
                                 <input type="button" value="Village Stats" class="btn btn-info btn-lg" id="showStatsbtn" onclick="showVillageStats()">

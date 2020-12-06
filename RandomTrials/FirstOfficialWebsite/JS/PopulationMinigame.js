@@ -269,21 +269,28 @@ function buildHome(item) {
 
 function OpenJobs () {
     let jobs = document.getElementById("jobsDiv");
-    if (jobs.style.display === "none") {
+    if (jobs.style.display == "none") {
         jobs.style.display = "block";
     } else {
         jobs.style.display = "none";
     }
-
     showJobs();
 }
 
 function subtractIdle() {
-    Village.Idle -= 1;
+    if(Village.Idle > 0) {
+        Village.Idle -= 1;
+    } else {
+        alert(`There are no available villagers to send.`)
+    }
 }
 
 function addIdle() {
-    Village.Idle += 1;
+    if(Village.Idle < Village.Population) {
+        Village.Idle += 1;
+    } else {
+        alert(`There are no available villagers to send.`)
+    }
 }
 
 let totalWorking = 0;
@@ -307,8 +314,21 @@ function subFromJob(e) {
     }
 }
 
+function collectWood() {
+    Village.Wood += 1;
+    addIdle();
+}
+
+function sendVillager() {
+    if(Village.Idle > 0) {
+        subtractIdle();
+        setTimeout(collectWood, 5000)
+    }
+}
+
+
 function showJobs() {
-    let conta = document.getElementById("jobsDiv");
+    let conta = document.getElementById("nonepremadejobs");
     conta.innerHTML = '';
     JobsArrayActive.forEach(element => {
         let mydiv = document.createElement("div");
