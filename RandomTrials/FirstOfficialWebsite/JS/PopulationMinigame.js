@@ -75,7 +75,7 @@ function initBuilding(Name, Health, Beds, Size, Capacity, BuildCostWood, BuildCo
 let Village = {}
 Village.Name = `My Village`;
 Village.Population = 1;
-Village.Money = 100;
+Village.Money = 0;
 Village.AverageHappiness = 100;
 Village.FoodSupply = 0
 Village.WaterSupply = 0;
