@@ -14,6 +14,36 @@
 */
 
 let VillagerConsumptionTime;
+
+/* Saving The Game
+---------------------------------------------------------------------------------------------*/
+
+function setPopToHighscore() {
+    let highscorePop = localStorage.getItem("PopulationHighScore");
+    Village.Population = highscorePop;
+    Village.Idle = (Village.Population - totalWorking)
+}
+
+function saveGame() {
+    if(Village.Population > Village.PopulationHighScore && loggedIn == true) {
+        Village.PopulationHighScore = Village.Population;
+        localStorage.setItem("PopulationHighScore", Village.PopulationHighScore);
+    }
+}
+
+function autoset() {
+    if(Village.Population > Village.PopulationHighScore && loggedIn == true) {
+        Village.PopulationHighScore = Village.Population
+        localStorage.setItem("PopulationHighScore", Village.PopulationHighScore)
+    }
+}
+
+function startGame() {
+    let highscorePop = localStorage.getItem("PopulationHighScore");
+    Village.PopulationHighScore = highscorePop;
+    warrningToggle();
+}
+
 /* Recource Collection
 ---------------------------------------------------------------------------------------------*/
 
@@ -118,6 +148,11 @@ function OpenTaxingOption () {
     taxVillagersUpdate();
 }
 
+function taxAllVillagers() {
+    VillagersTaxed = Village.Population;
+    taxVillagersUpdate();
+}
+
 function taxVillagersUpdate() {
     let conta = document.getElementById("taxDiv");
     conta.innerHTML = '';
@@ -125,20 +160,45 @@ function taxVillagersUpdate() {
         let myspan= document.createElement("span");
         let mybutton= document.createElement("input");
         let mybutton1= document.createElement("input");
+        let mybutton2 = document.createElement("input")
             mybutton.classList.add('bootstrap-imatation');
             mybutton1.classList.add('bootstrap-imatation');
+            mybutton2.classList.add('bootstrap-imatation');
             mybutton.type='button';
             mybutton.value = "+"
             mybutton.addEventListener("click", (e)=>{taxVillager();})
+            mybutton2.type='button';
+            mybutton2.value = "Tax all"
+            mybutton2.addEventListener("click", (e)=>{taxAllVillagers();})
             mybutton1.type='button';
             mybutton1.value = "-"
             mybutton1.addEventListener("click", (e)=>{untaxVillager();})
             myspan.textContent = `Villagers taxed out of total Population: ${VillagersTaxed}/${Village.Population}`;
             
+        mydiv.appendChild(mybutton2)
         mydiv.appendChild(myspan);
         mydiv.appendChild(mybutton);
         mydiv.appendChild(mybutton1);
         conta.appendChild(mydiv);      
+}
+
+/* Buy more Area
+---------------------------------------------------------------------------------------------*/
+
+let Area = {}
+Area.Cost = 25;
+Area.Space = 100;
+let Area2 = {}
+Area.Cost = 50;
+Area.Space = 200;
+let Area3 = {}
+Area.Cost = 100;
+Area.Space = 500;
+
+function buyArea() {
+    if(Village.Money ) {
+
+    }
 }
 
 /* Buy Buildings
@@ -261,11 +321,15 @@ function checkTaxing() {
     Village.Money += (VillagersTaxed/2)
 }
 
+function startEating() {
+    setInterval(villagersEat, 60000)
+}
 // setInterval(checkAchievements, 100)
 
 let loopCount = 0;
 
 function gameloop(){
+    startEating();
     loopCount++;
     // do evey 100 ms items
     organizeBuildings();
@@ -280,6 +344,7 @@ function gameloop(){
         checkTaxing();
         loopCount=0;
     }
+    
 }
 
 function showVillageStats() {
@@ -447,35 +512,6 @@ let achievementsPop = [SmallNeighborhood, SmallVillage, FlourishingVillage, Envi
 // function checkAchievements() {
 //     achievementsPop.forEach(a =>{if(a.achievedPoint >= Village.Population && a.achieved == false)a.achieved = true, Village.Wood += a.achievedPoint, Village.Stone += a.achievedPoint, Village.Iron += a.achievedPoint, alert(`YAY! For your achivement completion, you are awarded free supplies!`)});
 // }
-
-/* Saving The Game
----------------------------------------------------------------------------------------------*/
-
-function setPopToHighscore() {
-    let highscorePop = localStorage.getItem("PopulationHighScore");
-    Village.Population = highscorePop;
-    Village.Idle = (Village.Population - totalWorking)
-}
-
-function saveGame() {
-    if(Village.Population > Village.PopulationHighScore && loggedIn == true) {
-        Village.PopulationHighScore = Village.Population;
-        localStorage.setItem("PopulationHighScore", Village.PopulationHighScore);
-    }
-}
-
-function autoset() {
-    if(Village.Population > Village.PopulationHighScore && loggedIn == true) {
-        Village.PopulationHighScore = Village.Population
-        localStorage.setItem("PopulationHighScore", Village.PopulationHighScore)
-    }
-}
-
-function startGame() {
-    let highscorePop = localStorage.getItem("PopulationHighScore");
-    Village.PopulationHighScore = highscorePop;
-    warrningToggle();
-}
 
 /* Upgrades
 ---------------------------------------------------------------------------------------------*/
