@@ -322,7 +322,7 @@ function checkTaxing() {
 }
 
 function startEating() {
-    setInterval(villagersEat, 60000)
+    setInterval(villagersEat, 300000)
 }
 // setInterval(checkAchievements, 100)
 
