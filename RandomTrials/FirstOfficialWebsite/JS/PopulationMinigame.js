@@ -11,6 +11,7 @@
 * I need to add achievements/goals
 * I need to fix the glitch where if you build two or more of the same building and add one worker to only one of the buildings, it counts as two workers and both get a worker, like one willager at two places at once
 * I am going to create classes like "Admin" and "Beta-Tester"
+* Save all stats and allow user to reset them.
 */
 
 let VillagerConsumptionTime;
@@ -105,8 +106,8 @@ function initBuilding(Name, Health, Beds, Size, Capacity, BuildCostWood, BuildCo
 let Village = {}
 Village.Name = `My Village`;
 Village.Population = 1;
-Village.Money = 0;
-Village.AverageHappiness = 100;
+Village.Money = 10000;
+Village.AverageHappiness = 60;
 Village.FoodSupply = 0
 Village.WaterSupply = 0;
 Village.Area = 100;
@@ -123,9 +124,16 @@ Village.Idle = Village.Population;
 /* Taxing
 ---------------------------------------------------------------------------------------------*/
 
+let VillagersTaxed = 0;
+
+function setHappiness() {
+    Village.AverageHappiness -= (VillagersTaxed/2)
+}
+
 function taxVillager() {
     if(VillagersTaxed < Village.Population) {
         VillagersTaxed += 1;
+        setHappiness();
         taxVillagersUpdate();
     }
 }
@@ -133,6 +141,7 @@ function taxVillager() {
 function untaxVillager() {
     if(VillagersTaxed > 0) {
         VillagersTaxed -= 1;
+        setHappiness();
         taxVillagersUpdate();
     }
 }
@@ -150,6 +159,7 @@ function OpenTaxingOption () {
 
 function taxAllVillagers() {
     VillagersTaxed = Village.Population;
+    setHappiness();
     taxVillagersUpdate();
 }
 
@@ -188,17 +198,53 @@ function taxVillagersUpdate() {
 let Area = {}
 Area.Cost = 25;
 Area.Space = 100;
+Area.Name = "Land lot 1";
 let Area2 = {}
-Area.Cost = 50;
-Area.Space = 200;
+Area2.Cost = 50;
+Area2.Space = 200;
+Area2.Name = "Land lot 2";
 let Area3 = {}
-Area.Cost = 100;
-Area.Space = 500;
+Area3.Cost = 100;
+Area3.Space = 500;
+Area3.Name = "Land lot 3";
 
-function buyArea() {
-    if(Village.Money ) {
+let LandSlots = [Area, Area2, Area3];
 
+function buyArea(e) {
+    if(Village.Money >= e.Cost) {
+        Village.Money -= e.Cost;
+        Village.Area += e.Space;
+        Village.AreaLeft += e.Space
     }
+}
+
+function OpenLands() {
+    let lands = document.getElementById("areaDiv");
+    if (lands.style.display == "none") {
+        lands.style.display = "block";
+    } else {
+        lands.style.display = "none";
+    }
+    createAreaBtns();
+}
+
+function createAreaBtns() {
+    let conta = document.getElementById("areaDiv");
+    conta.innerHTML = '';
+    LandSlots.forEach(element => {
+        let mydiv = document.createElement("div");
+        let myspan= document.createElement("span");
+        let mybutton= document.createElement("input");
+            mybutton.classList.add('bootstrap-imatation');
+            mybutton.type='button';
+            mybutton.value = `Buy ${element.Name}`
+            mybutton.addEventListener("click", (e)=>{buyArea(element);})
+            myspan.textContent = `Buy this piece of land to gain ${element.Space} land for ${element.Cost}`;
+            
+        mydiv.appendChild(myspan);
+        mydiv.appendChild(mybutton);
+        conta.appendChild(mydiv);      
+    });
 }
 
 /* Buy Buildings
@@ -315,7 +361,30 @@ function villagersEat() {
     }
 }
 
-let VillagersTaxed = 0;
+function checkHappiness() {
+    let faceImgDisplay = document.getElementById("villageInfo");
+    if(Village.AverageHappiness < 75 && Village.AverageHappiness > 50) {
+        let neutralFace = document.createElement("img");
+        let faceChange = document.createElement("div");
+        faceChange.innerHTML = '';
+        neutralFace.src = "Images/neutralFace.jpg"
+        neutralFace.alt = "Neutral Face"
+
+        faceChange.appendChild(neutralFace)
+        faceImgDisplay.appendChild(faceChange);
+    }
+
+    if(Village.AverageHappiness < 50) {
+        let madFace = document.createElement("img");
+        let faceChange = document.createElement("div");
+        faceChange.innerHTML = '';
+        madFace.src = "Images/madFace.jpg"
+        madFace.alt = "Mad Face"
+
+        faceChange.appendChild(madFace)
+        faceImgDisplay.appendChild(faceChange);
+    }
+}
 
 function checkTaxing() {
     Village.Money += (VillagersTaxed/2)
@@ -337,6 +406,7 @@ function gameloop(){
     updateVillage();
     showVillage();
     checkPopulation();
+    checkHappiness();
     if(loopCount == 150){
         // do evey 150 ms items
         collectRecources();
