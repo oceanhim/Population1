@@ -14,6 +14,7 @@
 * Save all stats and allow user to reset them.
 * fix clinic
 * fix the leaving villagers part
+* Enable the capacity attribute
 */
 
 let VillagerConsumptionTime;
@@ -130,7 +131,7 @@ function startGame() {
 let VillagersTaxed = 0;
 
 function setHappiness() {
-    Village.AverageHappiness -= (VillagersTaxed/2)
+    Village.AverageHappiness -= (VillagersTaxed * 2)
 }
 
 function addHappiness() {
