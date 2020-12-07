@@ -12,8 +12,8 @@
 * I need to fix the glitch where if you build two or more of the same building and add one worker to only one of the buildings, it counts as two workers and both get a worker, like one willager at two places at once
 * I am going to create classes like "Admin" and "Beta-Tester"
 * Save all stats and allow user to reset them.
-* fix happiness emojies and more happiness stuff
 * fix clinic
+* fix the leaving villagers part
 */
 
 let VillagerConsumptionTime;
@@ -29,9 +29,10 @@ let Orchard = initWorkStation("Orchard",60,10,20,60,20,5,2,0,true,0, false);
 let Tavern = initWorkStation("Tavern",70,3,20,60,25,10,3,0,true,0, false);
 let WaterMill = initWorkStation("Water Mill",50,4,20,0,15,5,0,0,true,0, false);
 let WaterPlantation = initWorkStation("Water Plantation",150,10,40,0,30,10,5,2,true,0, false);
+let Festival = initWorkStation("Festival",30,2,40,10,10,5,2,0,true,0,false);
 
 
-let JobsArray = [TimberHouse, Quarry, IronMine, Farm, Orchard, Tavern, WaterMill, WaterPlantation]
+let JobsArray = [TimberHouse, Quarry, IronMine, Farm, Orchard, Tavern, WaterMill, WaterPlantation, Festival]
 let JobsArrayActive = [];
 
 function initWorkStation(Name, Health, WorkSlots, Size, Capacity, BuildCostWood, BuildCostStone, BuildCostIron, BuildCostGold, Discovered, FilledWorkSlots, Built){
@@ -85,7 +86,7 @@ Village.FoodSupply = 0
 Village.WaterSupply = 0;
 Village.Area = 100;
 Village.AreaLeft = 100
-Village.Buildings = [Hut, Cottage, WaterMill, Clinic, Mansion, taxCollecter, TimberHouse, Quarry, IronMine, Farm, Orchard, WaterPlantation];
+Village.Buildings = [Hut, Cottage, WaterMill, Clinic, Mansion, taxCollecter, TimberHouse, Quarry, IronMine, Farm, Orchard, WaterPlantation, Festival];
 Village.Recources = [Village.Wood, Village.Stone, Village.Iron]
 Village.Wood = 20;
 Village.Stone = 10;
@@ -132,6 +133,12 @@ function setHappiness() {
     Village.AverageHappiness -= (VillagersTaxed/2)
 }
 
+function addHappiness() {
+    if(Village.AverageHappiness < 100) {
+        Village.AverageHappiness += 0.5;
+    }   
+}
+
 function taxVillager() {
     if(VillagersTaxed < Village.Population) {
         VillagersTaxed += 1;
@@ -143,7 +150,7 @@ function taxVillager() {
 function untaxVillager() {
     if(VillagersTaxed > 0) {
         VillagersTaxed -= 1;
-        setHappiness();
+        addHappiness();
         taxVillagersUpdate();
     }
 }
@@ -325,6 +332,7 @@ function collectRecources() {
     Village.FoodSupply += Orchard.FilledWorkSlots * 2;
     Village.WaterSupply += WaterMill.FilledWorkSlots;
     Village.WaterSupply += WaterPlantation.FilledWorkSlots * 2;
+    Village.AverageHappiness += (Festival.FilledWorkSlots * 2)
 }
 
 function updateVillage() {
@@ -362,6 +370,31 @@ function villagersEat() {
         Village.WaterSupply -= (Village.Population / 2);
     }
 }
+let totalLeft = 0
+
+function stillLow() {
+    if(Village.AverageHappiness < 35) {
+        let villagersLeaving = Math.floor((Math.random() * 10) + 1)
+        Village.Population -= villagersLeaving;
+        totalLeft += villagersLeaving;
+        Village.Idle -= villagersLeaving;
+        alert(`Oh no! Your villagers are unhappy and ${villagersLeaving} villagers have just left! ${totalLeft} villagers in total have left your village!`)
+    } else {
+        alert(`YAY! Your villagers are happy enough to stay!`)
+    }
+}
+
+function villagersLeave() {
+    if(Village.AverageHappiness < 35) {
+        clearInterval(villagersWillLeave);
+        setTimeout(stillLow, 10000)
+        let villagersLeaving = Math.floor((Math.random() * 10) + 1)
+        Village.Population -= villagersLeaving;
+        totalLeft += villagersLeaving;
+        Village.Idle -= villagersLeaving;
+        alert(`Oh no! Your villagers are unhappy and ${villagersLeaving} villagers have just left! ${totalLeft} villagers in total have left your village!`)
+    }
+}
 
 function checkHappiness() {
     if(Village.AverageHappiness < 75 && Village.AverageHappiness > 50) {
@@ -371,37 +404,14 @@ function checkHappiness() {
         mehFace.style.display = "block"
     }
     if(Village.AverageHappiness < 50) {
+        let yayFace = document.getElementById("happyfaceImg");
+        yayFace.style.display = "none"
         let madFace = document.getElementById("madfaceImg");
         madFace.style.display = "block"
         let mehFace = document.getElementById("neutralfaceImg");
         mehFace.style.display = "none"
     }
 }
-
-// function checkHappiness() {
-//     let faceImgDisplay = document.getElementById("villageInfo");
-//     if(Village.AverageHappiness < 75 && Village.AverageHappiness > 50) {
-//         let neutralFace = document.createElement("img");
-//         let faceChange = document.createElement("div");
-//         faceChange.innerHTML = '';
-//         neutralFace.src = "Images/neutralFace.jpg"
-//         neutralFace.alt = "Neutral Face"
-
-//         faceChange.appendChild(neutralFace)
-//         faceImgDisplay.appendChild(faceChange);
-//     }
-
-//     if(Village.AverageHappiness < 50) {
-//         let madFace = document.createElement("img");
-//         let faceChange = document.createElement("div");
-//         faceChange.innerHTML = '';
-//         madFace.src = "Images/madFace.jpg"
-//         madFace.alt = "Mad Face"
-
-//         faceChange.appendChild(madFace)
-//         faceImgDisplay.appendChild(faceChange);
-//     }
-// }
 
 function checkTaxing() {
     Village.Money += (VillagersTaxed/2)
@@ -410,7 +420,16 @@ function checkTaxing() {
 function startEating() {
     setInterval(villagersEat, 300000)
 }
+
+let villagersWillLeave = setInterval(villagersLeave, 100)
 // setInterval(checkAchievements, 100)
+
+function haveTheyDied() {
+    if(Village.Population < 0) {
+        alert(`*crying* Game Over`)
+        window.location =  `https://trusting-beaver-aea52c.netlify.app/`;
+    }
+}
 
 let loopCount = 0;
 
@@ -418,6 +437,7 @@ function gameloop(){
     // startEating();
     loopCount++;
     // do evey 100 ms items
+    haveTheyDied();
     organizeBuildings();
     ItemDiscovered();
     updateVillage();
