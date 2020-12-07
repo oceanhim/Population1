@@ -12,38 +12,12 @@
 * I need to fix the glitch where if you build two or more of the same building and add one worker to only one of the buildings, it counts as two workers and both get a worker, like one willager at two places at once
 * I am going to create classes like "Admin" and "Beta-Tester"
 * Save all stats and allow user to reset them.
+* Fix upgrades
+* fix happiness emojies and more happiness stuff
+* fix clinic
 */
 
 let VillagerConsumptionTime;
-
-/* Saving The Game
----------------------------------------------------------------------------------------------*/
-
-function setPopToHighscore() {
-    let highscorePop = localStorage.getItem("PopulationHighScore");
-    Village.Population = highscorePop;
-    Village.Idle = (Village.Population - totalWorking)
-}
-
-function saveGame() {
-    if(Village.Population > Village.PopulationHighScore && loggedIn == true) {
-        Village.PopulationHighScore = Village.Population;
-        localStorage.setItem("PopulationHighScore", Village.PopulationHighScore);
-    }
-}
-
-function autoset() {
-    if(Village.Population > Village.PopulationHighScore && loggedIn == true) {
-        Village.PopulationHighScore = Village.Population
-        localStorage.setItem("PopulationHighScore", Village.PopulationHighScore)
-    }
-}
-
-function startGame() {
-    let highscorePop = localStorage.getItem("PopulationHighScore");
-    Village.PopulationHighScore = highscorePop;
-    warrningToggle();
-}
 
 /* Recource Collection
 ---------------------------------------------------------------------------------------------*/
@@ -106,8 +80,8 @@ function initBuilding(Name, Health, Beds, Size, Capacity, BuildCostWood, BuildCo
 let Village = {}
 Village.Name = `My Village`;
 Village.Population = 1;
-Village.Money = 10000;
-Village.AverageHappiness = 60;
+Village.Money = 0;
+Village.AverageHappiness = 100;
 Village.FoodSupply = 0
 Village.WaterSupply = 0;
 Village.Area = 100;
@@ -120,6 +94,35 @@ Village.Iron = 0;
 Village.Idle = 1;
 Village.PopulationHighScore = 0;
 Village.Idle = Village.Population;
+
+/* Saving Population HighScore
+---------------------------------------------------------------------------------------------*/
+
+function setPopToHighscore() {
+    let highscorePop = localStorage.getItem("PopulationHighScore");
+    Village.Population = highscorePop;
+    Village.Idle = (Village.Population - totalWorking)
+}
+
+function saveGame() {
+    if(Village.Population > Village.PopulationHighScore && loggedIn == true) {
+        Village.PopulationHighScore = Village.Population;
+        localStorage.setItem("PopulationHighScore", Village.PopulationHighScore);
+    }
+}
+
+function autoset() {
+    if(Village.Population > Village.PopulationHighScore && loggedIn == true) {
+        Village.PopulationHighScore = Village.Population
+        localStorage.setItem("PopulationHighScore", Village.PopulationHighScore)
+    }
+}
+
+function startGame() {
+    let highscorePop = localStorage.getItem("PopulationHighScore");
+    Village.PopulationHighScore = highscorePop;
+    warrningToggle();
+}
 
 /* Taxing
 ---------------------------------------------------------------------------------------------*/
@@ -362,29 +365,60 @@ function villagersEat() {
 }
 
 function checkHappiness() {
-    let faceImgDisplay = document.getElementById("villageInfo");
     if(Village.AverageHappiness < 75 && Village.AverageHappiness > 50) {
-        let neutralFace = document.createElement("img");
-        let faceChange = document.createElement("div");
-        faceChange.innerHTML = '';
-        neutralFace.src = "Images/neutralFace.jpg"
-        neutralFace.alt = "Neutral Face"
-
-        faceChange.appendChild(neutralFace)
-        faceImgDisplay.appendChild(faceChange);
+        let yayFace = document.getElementById("happyfaceImg");
+        if(yayFace.style.display == "block") {
+            yayFace.style.display = "none"
+        } else {
+            yayFace.style.display = "block";
+        }
+        let mehFace = document.getElementById("neutralfaceImg");
+        if(mehFace.style.display == "none") {
+            mehFace.style.display = "block"
+        } else {
+            mehFace.style.display = "none"
+        }
     }
-
     if(Village.AverageHappiness < 50) {
-        let madFace = document.createElement("img");
-        let faceChange = document.createElement("div");
-        faceChange.innerHTML = '';
-        madFace.src = "Images/madFace.jpg"
-        madFace.alt = "Mad Face"
-
-        faceChange.appendChild(madFace)
-        faceImgDisplay.appendChild(faceChange);
+        let madFace = document.getElementById("madfaceImg");
+        if(madFace.style.display == "block") {
+            madFace.style.display = "none"
+        } else {
+            madFace.style.display = "block";
+        }
+        let mehFace = document.getElementById("neutralfaceImg");
+        if(mehFace.style.display == "block") {
+            mehFace.style.display = "none"
+        } else {
+            mehFace.style.display = "block"
+        }
     }
 }
+
+// function checkHappiness() {
+//     let faceImgDisplay = document.getElementById("villageInfo");
+//     if(Village.AverageHappiness < 75 && Village.AverageHappiness > 50) {
+//         let neutralFace = document.createElement("img");
+//         let faceChange = document.createElement("div");
+//         faceChange.innerHTML = '';
+//         neutralFace.src = "Images/neutralFace.jpg"
+//         neutralFace.alt = "Neutral Face"
+
+//         faceChange.appendChild(neutralFace)
+//         faceImgDisplay.appendChild(faceChange);
+//     }
+
+//     if(Village.AverageHappiness < 50) {
+//         let madFace = document.createElement("img");
+//         let faceChange = document.createElement("div");
+//         faceChange.innerHTML = '';
+//         madFace.src = "Images/madFace.jpg"
+//         madFace.alt = "Mad Face"
+
+//         faceChange.appendChild(madFace)
+//         faceImgDisplay.appendChild(faceChange);
+//     }
+// }
 
 function checkTaxing() {
     Village.Money += (VillagersTaxed/2)
@@ -625,7 +659,7 @@ ironBoostLegendary.Boost = 250;
 let upgradesArray = [woodBoostCommon, woodBoostRare, woodBoostLegendary, stoneBoostCommon, stoneBoostRare, stoneBoostLegendary, ironBoostCommon, ironBoostRare, ironBoostLegendary]
 
 function buyUpgrade(booster) {
-    if(Village.Money >= upgrade.Cost) {
+    if(Village.Money >= booster.Cost) {
         if(booster.Name == "Common Wood Boost" || booster.Name == "Rare Wood Boost" || booster.Name == "Legendary Wood Boost") {
             Village.Wood += booster.Boost;
             Village.Money -= booster.Cost;
