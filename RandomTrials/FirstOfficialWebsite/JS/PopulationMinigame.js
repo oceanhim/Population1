@@ -12,7 +12,6 @@
 * I need to fix the glitch where if you build two or more of the same building and add one worker to only one of the buildings, it counts as two workers and both get a worker, like one willager at two places at once
 * I am going to create classes like "Admin" and "Beta-Tester"
 * Save all stats and allow user to reset them.
-* Fix upgrades
 * fix happiness emojies and more happiness stuff
 * fix clinic
 */
@@ -367,31 +366,15 @@ function villagersEat() {
 function checkHappiness() {
     if(Village.AverageHappiness < 75 && Village.AverageHappiness > 50) {
         let yayFace = document.getElementById("happyfaceImg");
-        if(yayFace.style.display == "block") {
-            yayFace.style.display = "none"
-        } else {
-            yayFace.style.display = "block";
-        }
+        yayFace.style.display = "none"
         let mehFace = document.getElementById("neutralfaceImg");
-        if(mehFace.style.display == "none") {
-            mehFace.style.display = "block"
-        } else {
-            mehFace.style.display = "none"
-        }
+        mehFace.style.display = "block"
     }
     if(Village.AverageHappiness < 50) {
         let madFace = document.getElementById("madfaceImg");
-        if(madFace.style.display == "block") {
-            madFace.style.display = "none"
-        } else {
-            madFace.style.display = "block";
-        }
+        madFace.style.display = "block"
         let mehFace = document.getElementById("neutralfaceImg");
-        if(mehFace.style.display == "block") {
-            mehFace.style.display = "none"
-        } else {
-            mehFace.style.display = "block"
-        }
+        mehFace.style.display = "none"
     }
 }
 
