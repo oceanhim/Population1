@@ -329,7 +329,7 @@ function startEating() {
 let loopCount = 0;
 
 function gameloop(){
-    startEating();
+    // startEating();
     loopCount++;
     // do evey 100 ms items
     organizeBuildings();
