@@ -22,21 +22,21 @@ let VillagerConsumptionTime;
 /* Recource Collection
 ---------------------------------------------------------------------------------------------*/
 
-let TimberHouse = initWorkStation("TimberHouse",60,7,15,40,15,2,0,0,true,0, false);
-let Quarry = initWorkStation("Quarry/Stone Mine",100,5,15,50,10,2,0,0,true,0, false);
-let IronMine = initWorkStation("IronMine",150,5,15,30,2,15,0,0,true,0, false);
-let Farm = initWorkStation("Farm",30,5,10,30,10,0,0,0,true,0, false);
-let Orchard = initWorkStation("Orchard",60,10,20,60,20,5,2,0,true,0, false);
-let Tavern = initWorkStation("Tavern",70,3,20,60,25,10,3,0,true,0, false);
-let WaterMill = initWorkStation("Water Mill",50,4,20,0,15,5,0,0,true,0, false);
-let WaterPlantation = initWorkStation("Water Plantation",150,10,40,0,30,10,5,2,true,0, false);
-let Festival = initWorkStation("Festival",30,2,40,10,10,5,2,0,true,0,false);
+let TimberHouse = initWorkStation("TimberHouse",60,7,15,40,15,2,0,0,true,0,false,0);
+let Quarry = initWorkStation("Quarry/Stone Mine",100,5,15,50,10,2,0,0,true,0,false,0);
+let IronMine = initWorkStation("IronMine",150,5,15,30,2,15,0,0,true,0,false,0);
+let Farm = initWorkStation("Farm",30,5,10,30,10,0,0,0,true,0, false,0);
+let Orchard = initWorkStation("Orchard",60,10,20,60,20,5,2,0,true,0, false,0);
+let Tavern = initWorkStation("Tavern",70,3,20,60,25,10,3,0,true,0, false,0);
+let WaterMill = initWorkStation("Water Mill",50,4,20,0,15,5,0,0,true,0,false,0);
+let WaterPlantation = initWorkStation("Water Plantation",150,10,40,0,30,10,5,2,true,0,false,0);
+let Festival = initWorkStation("Festival",30,2,40,10,10,5,2,0,true,0,false,0);
 
 
 let JobsArray = [TimberHouse, Quarry, IronMine, Farm, Orchard, Tavern, WaterMill, WaterPlantation, Festival]
 let JobsArrayActive = [];
 
-function initWorkStation(Name, Health, WorkSlots, Size, Capacity, BuildCostWood, BuildCostStone, BuildCostIron, BuildCostGold, Discovered, FilledWorkSlots, Built){
+function initWorkStation(Name, Health, WorkSlots, Size, Capacity, BuildCostWood, BuildCostStone, BuildCostIron, BuildCostGold, Discovered, FilledWorkSlots, Built, CapacityFilled){
         return {
             Name : Name,
             Health : Health,
@@ -49,7 +49,8 @@ function initWorkStation(Name, Health, WorkSlots, Size, Capacity, BuildCostWood,
             BuildCostGold : BuildCostGold,
             Discovered : Discovered,
             FilledWorkSlots : FilledWorkSlots, 
-            Built : Built
+            Built : Built,
+            CapacityFilled : CapacityFilled 
         };
 }
 
@@ -91,13 +92,27 @@ Village.Buildings = [Hut, Cottage, WaterMill, Clinic, Mansion, taxCollecter, Tim
 Village.Recources = [Village.Wood, Village.Stone, Village.Iron]
 Village.Wood = 20;
 Village.Stone = 10;
-Village.Iron = 0;
+Village.Iron = 2;
 Village.Idle = 1;
 Village.PopulationHighScore = 0;
 Village.Idle = Village.Population;
+Village.Capacity = 200;
+Village.CapacityFilled = 0;
 
-/* Saving Population HighScore
+/* Saving the Game
 ---------------------------------------------------------------------------------------------*/
+
+function saveGame() {
+    let x;
+    let y;
+    for(x in Village) {
+        for(y of x) {
+            console.log(y)
+        }
+    }
+}
+
+saveGame();
 
 function setPopToHighscore() {
     let highscorePop = localStorage.getItem("PopulationHighScore");
@@ -105,7 +120,7 @@ function setPopToHighscore() {
     Village.Idle = (Village.Population - totalWorking)
 }
 
-function saveGame() {
+function savePopHighscore() {
     if(Village.Population > Village.PopulationHighScore && loggedIn == true) {
         Village.PopulationHighScore = Village.Population;
         localStorage.setItem("PopulationHighScore", Village.PopulationHighScore);
@@ -136,7 +151,7 @@ function setHappiness() {
 
 function addHappiness() {
     if(Village.AverageHappiness < 100) {
-        Village.AverageHappiness += 0.5;
+        Village.AverageHappiness += 2;
     }   
 }
 
@@ -144,6 +159,8 @@ function taxVillager() {
     if(VillagersTaxed < Village.Population) {
         VillagersTaxed += 1;
         setHappiness();
+        checkHappiness();
+        villagersLeave();
         taxVillagersUpdate();
     }
 }
@@ -151,6 +168,8 @@ function taxVillager() {
 function untaxVillager() {
     if(VillagersTaxed > 0) {
         VillagersTaxed -= 1;
+        checkHappiness();
+        villagersLeave();
         addHappiness();
         taxVillagersUpdate();
     }
@@ -169,6 +188,8 @@ function OpenTaxingOption () {
 
 function taxAllVillagers() {
     VillagersTaxed = Village.Population;
+    checkHappiness();
+    villagersLeave();
     setHappiness();
     taxVillagersUpdate();
 }
@@ -205,20 +226,19 @@ function taxVillagersUpdate() {
 /* Buy more Area
 ---------------------------------------------------------------------------------------------*/
 
-let Area = {}
-Area.Cost = 25;
-Area.Space = 100;
-Area.Name = "Land lot 1";
-let Area2 = {}
-Area2.Cost = 50;
-Area2.Space = 200;
-Area2.Name = "Land lot 2";
-let Area3 = {}
-Area3.Cost = 100;
-Area3.Space = 500;
-Area3.Name = "Land lot 3";
+class Areas {
+    constructor(Cost, Space, Name) {
+        this.Cost = Cost
+        this.Space = Space
+        this.Name = Name
+    }
+}
 
-let LandSlots = [Area, Area2, Area3];
+let Area1 = new Areas(25,100,"Land lot 1");
+let Area2 = new Areas(50,200,"Land lot 2");
+let Area3 = new Areas(100,500,"Land lot 3");
+
+let LandSlots = [Area1, Area2, Area3];
 
 function buyArea(e) {
     if(Village.Money >= e.Cost) {
@@ -325,15 +345,53 @@ function ItemDiscovered() {
     return Village.Buildings.forEach(a =>{if(a.Discovered == true)handook.innerHTML += `<h4>${a.Name}: ${a.BuildCostWood} wood, ${a.BuildCostStone} stone, ${a.BuildCostIron} iron, ${a.BuildCostGold} gold, ${a.Beds || a.WorkSlots} beds, (if a worker builing, this is work slots), ${a.Size} size<h4> <br>`});
 }
 
-function collectRecources() {
-    Village.Wood += TimberHouse.FilledWorkSlots;
-    Village.Stone += Quarry.FilledWorkSlots;
-    Village.Iron += IronMine.FilledWorkSlots;
-    Village.FoodSupply += Farm.FilledWorkSlots;
-    Village.FoodSupply += Orchard.FilledWorkSlots * 2;
+// function collectRecources() {
+//     if((TimberHouse.CapacityFilled + TimberHouse.FilledWorkSlots) <= TimberHouse.Capacity ) {
+//         TimberHouse.CapacityFilled += TimberHouse.FilledWorkSlots;
+//     } else {
+//         if((Village.CapacityFilled + TimberHouse.FilledWorkSlots) <= Village.Capacity) {
+//             Village.Wood += TimberHouse.FilledWorkSlots;
+//             Village.CapacityFilled += TimberHouse.FilledWorkSlots;
+//         } else {
+//             alert(`Oh no! You don't have anywhere to store your wood!`)
+//         }
+//     }
+//     Village.Wood += TimberHouse.FilledWorkSlots;
+//     Village.Stone += Quarry.FilledWorkSlots;
+//     Village.Iron += IronMine.FilledWorkSlots;
+//     Village.FoodSupply += Farm.FilledWorkSlots;
+//     Village.FoodSupply += Orchard.FilledWorkSlots * 2;
+//     Village.WaterSupply += WaterMill.FilledWorkSlots;
+//     Village.WaterSupply += WaterPlantation.FilledWorkSlots * 2;
+//     Village.AverageHappiness += (Festival.FilledWorkSlots * 2)
+// }
+
+
+function collectRecources(blgd) {
+    if((blgd.CapacityFilled + blgd.FilledWorkSlots) <= blgd.Capacity ) {
+        blgd.CapacityFilled += blgd.FilledWorkSlots;
+    } else {
+        if((Village.CapacityFilled + blgd.FilledWorkSlots) <= Village.Capacity) {
+            Village.Wood += blgd.FilledWorkSlots;
+            Village.CapacityFilled += blgd.FilledWorkSlots;
+        } else {
+            alert(`Oh no! You don't have anywhere to store your wood!`)
+        }
+    }
+    // Village.Wood += TimberHouse.FilledWorkSlots;
+    // Village.Stone += Quarry.FilledWorkSlots;
+    // Village.Iron += IronMine.FilledWorkSlots;
+    // Village.FoodSupply += Farm.FilledWorkSlots;
+    // Village.FoodSupply += Orchard.FilledWorkSlots * 2;
+    let impHap = Village.AverageHappiness;
     Village.WaterSupply += WaterMill.FilledWorkSlots;
     Village.WaterSupply += WaterPlantation.FilledWorkSlots * 2;
-    Village.AverageHappiness += (Festival.FilledWorkSlots * 2)
+    impHap += Festival.FilledWorkSlots;
+    if(impHap < 100) {
+        Village.AverageHappiness += (Festival.FilledWorkSlots * 2)
+    } else {
+        Village.AverageHappiness = 100;
+    }
 }
 
 function updateVillage() {
@@ -373,21 +431,8 @@ function villagersEat() {
 }
 let totalLeft = 0
 
-function stillLow() {
-    if(Village.AverageHappiness < 35) {
-        let villagersLeaving = Math.floor((Math.random() * 10) + 1)
-        Village.Population -= villagersLeaving;
-        totalLeft += villagersLeaving;
-        Village.Idle -= villagersLeaving;
-        alert(`Oh no! Your villagers are unhappy and ${villagersLeaving} villagers have just left! ${totalLeft} villagers in total have left your village!`)
-    } else {
-        alert(`YAY! Your villagers are happy enough to stay!`)
-    }
-}
-
 function villagersLeave() {
     if(Village.AverageHappiness < 35) {
-        clearInterval(villagersWillLeave);
         setTimeout(stillLow, 10000)
         let villagersLeaving = Math.floor((Math.random() * 10) + 1)
         Village.Population -= villagersLeaving;
@@ -422,7 +467,6 @@ function startEating() {
     setInterval(villagersEat, 300000)
 }
 
-let villagersWillLeave = setInterval(villagersLeave, 100)
 // setInterval(checkAchievements, 100)
 
 function haveTheyDied() {
@@ -447,8 +491,8 @@ function gameloop(){
     checkHappiness();
     if(loopCount == 150){
         // do evey 150 ms items
-        collectRecources();
-        saveGame();
+        JobsArray.forEach(a=>collectRecources(a));
+        savePopHighscore();
         checkTaxing();
         loopCount=0;
     }
@@ -588,32 +632,32 @@ function showJobs() {
 /* Achievements
 ---------------------------------------------------------------------------------------------*/
 
-let SmallNeighborhood = {};
-SmallNeighborhood.achievedPoint = 10
-SmallNeighborhood.achieved = false;
-let SmallVillage = {};
-SmallVillage.achievedPoint = 20
-SmallVillage.achieved = false;
-let FlourishingVillage = {};
-FlourishingVillage.achievedPoint = 50
-FlourishingVillage.achieved = false;
-let EnviedCity = {};
-EnviedCity.achievedPoint = 100
-EnviedCity.achieved = false;
-let FamousCity = {};
-FamousCity.achievedPoint = 200
-FamousCity.achieved = false;
-let Stocked = 500;
-Stocked.achieved = false;
-Stocked.completionBonus = 50;
-let Lively = 1;
-Lively.achieved = false;
-Lively.completionBonus = 15;
-let WellWaterd = 10;
-WellWaterd.achieved = false;
-WellWaterd.completionBonus = 15;
+// let SmallNeighborhood = {};
+// SmallNeighborhood.achievedPoint = 10
+// SmallNeighborhood.achieved = false;
+// let SmallVillage = {};
+// SmallVillage.achievedPoint = 20
+// SmallVillage.achieved = false;
+// let FlourishingVillage = {};
+// FlourishingVillage.achievedPoint = 50
+// FlourishingVillage.achieved = false;
+// let EnviedCity = {};
+// EnviedCity.achievedPoint = 100
+// EnviedCity.achieved = false;
+// let FamousCity = {};
+// FamousCity.achievedPoint = 200
+// FamousCity.achieved = false;
+// let Stocked = 500;
+// Stocked.achieved = false;
+// Stocked.completionBonus = 50;
+// let Lively = 1;
+// Lively.achieved = false;
+// Lively.completionBonus = 15;
+// let WellWaterd = 10;
+// WellWaterd.achieved = false;
+// WellWaterd.completionBonus = 15;
 
-let achievementsPop = [SmallNeighborhood, SmallVillage, FlourishingVillage, EnviedCity, FamousCity]
+// let achievementsPop = [SmallNeighborhood, SmallVillage, FlourishingVillage, EnviedCity, FamousCity]
 
 //Work In progress
 
@@ -623,42 +667,24 @@ let achievementsPop = [SmallNeighborhood, SmallVillage, FlourishingVillage, Envi
 
 /* Upgrades
 ---------------------------------------------------------------------------------------------*/
-let woodBoostCommon = {};
-woodBoostCommon.Name = "Common Wood Boost";
-woodBoostCommon.Cost = 10;
-woodBoostCommon.Boost = 50;
-let woodBoostRare = {}
-woodBoostRare.Name = "Rare Wood Boost";
-woodBoostRare.Cost = 25;
-woodBoostRare.Boost = 100;
-let woodBoostLegendary = {}
-woodBoostLegendary.Name = "Legendary Wood Boost";
-woodBoostLegendary.Boost = 200;
-woodBoostLegendary.Cost = 50;
-let stoneBoostCommon = {}
-stoneBoostCommon.Name = "Common Stone Boost";
-stoneBoostCommon.Cost = 10;
-stoneBoostCommon.Boost = 50;
-let stoneBoostRare = {}
-stoneBoostRare.Name = "Rare Stone Boost";
-stoneBoostRare.Cost = 25;
-stoneBoostRare.Boost = 100;
-let stoneBoostLegendary = {}
-stoneBoostLegendary.Name = "Legendary Stone Boost";
-stoneBoostLegendary.Cost = 100;
-stoneBoostLegendary.Boost = 250;
-let ironBoostCommon = {}
-ironBoostCommon.Name = "Common Iron Boost";
-ironBoostCommon.Cost = 10;
-ironBoostCommon.Boost = 50;
-let ironBoostRare = {}
-ironBoostRare.Name = "Rare Iron Boost";
-ironBoostRare.Cost = 25;
-ironBoostRare.Boost = 100;
-let ironBoostLegendary = {}
-ironBoostLegendary.Name = "Legendary Iron Boost";
-ironBoostLegendary.Cost = 100;
-ironBoostLegendary.Boost = 250;
+
+class RecourceBoosts {
+    constructor(Name, Cost, Boost) {
+        this.Name = Name
+        this.Cost = Cost
+        this.Boost = Boost
+    }
+}
+
+let woodBoostCommon = new RecourceBoosts("Common Wood Boost",10,50);
+let woodBoostRare = new RecourceBoosts("Rare Wood Boost",25,100);
+let woodBoostLegendary = new RecourceBoosts("Legendary Wood Boost",50,200);
+let stoneBoostCommon = new RecourceBoosts("Common Stone Boost",10,50);
+let stoneBoostRare = new RecourceBoosts("Rare Stone Boost",25,100);
+let stoneBoostLegendary = new RecourceBoosts("Legendary Stone Boost",100,250);
+let ironBoostCommon = new RecourceBoosts("Common Iron Boost",10,50);
+let ironBoostRare = new RecourceBoosts("Rare Iron Boost",25,100);
+let ironBoostLegendary = new RecourceBoosts("Legendary Iron Boost",100,250);
 
 let upgradesArray = [woodBoostCommon, woodBoostRare, woodBoostLegendary, stoneBoostCommon, stoneBoostRare, stoneBoostLegendary, ironBoostCommon, ironBoostRare, ironBoostLegendary]
 

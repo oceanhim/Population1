@@ -16,7 +16,8 @@ function createContact(){
 function findContacts(){
     clearlistBox();
     let items = find(document.getElementById("txtSearch").value);
-    var listbox = document.getElementById("lstContacts");
+    var listbox = getListBox();
+    console.log(items);
 
     if(items.length===0){
         var option = document.createElement("option");

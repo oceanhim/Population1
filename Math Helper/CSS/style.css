@@ -1,0 +1,22 @@
+body {
+    text-shadow: 1px 1px 8px white;
+    font-family: Verdana; color: #fff;
+    background: radial-gradient(#205983, #0A2742)
+}
+
+#containerBG {
+    background-color: white;
+}
+
+.numberGroup {
+    width: 600px;
+    height: 50px;
+    text-align: center;
+    font-size: xx-large;
+}
+
+#subBtn {
+    width: 100px;
+    height: 40px;
+    font-size: x-large;
+}

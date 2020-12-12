@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <script src="JS/addition&subtraction.js"></script>
+        <link rel="stylesheet" href="CSS/style.css">
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+        <title>Math Helper</title>
+    </head>
+    <body>
+        <div id="containerBG">
+            <div class="container">
+                <h2>Math Helper</h2>
+                <p>To make the tabs toggleable, add the data-toggle="pill" attribute to each link. Then add a .tab-pane class with a unique ID for every tab and wrap them inside a div element with class .tab-content.</p>
+                <ul class="nav nav-pills">
+                <li class="active"><a data-toggle="pill" href="#home">Home</a></li>
+                <li><a data-toggle="pill" href="#menu1">Addition & Subtraction</a></li>
+                </ul>
+                
+                <div class="tab-content">
+                    <div id="home" class="tab-pane fade in active">
+                        <h2>HOME</h2>
+                        <h3>Math Helper</h3>
+                    </div>
+                    <div id="menu1" class="tab-pane fade">
+                        <h2>Addition & Subtraction</h2>
+                        <br>
+                        <br>
+                        <br>
+                        <div id="+or-Div" style="display: none;">
+                            <div id="answerDisplay"></div>
+                            <label for="+btn">Add the two numbers</label>
+                            <input type="button" name="+btn" id="+btn" value="+" onclick="addNums()">
+                            <br>
+                            <label for="-btn">Subtract the two numbers</label>
+                            <input type="button" name="-btn" id="-btn" value="-" onclick="subNums()">
+                        </div>
+                        <input type="text" name="inputtxt1" class="numberGroup" id="numb1" placeholder="type your numbers here"> <span id="errorDisplay" style="color: red; display: none; font-size: xx-large;">You entered invalid data</span>
+                        <br>
+                        <br>
+                        <input type="text" name="inputtxt2" id="numb2" placeholder="type your second number here" class="numberGroup">
+                        <br>
+                        <br>
+                        <input type="button" name="subBtn" id="subBtn" value="Submit" onclick="subEquation()">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </body>
+</html>

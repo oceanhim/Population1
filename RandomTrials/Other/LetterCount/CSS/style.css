@@ -1,0 +1,17 @@
+#wordinput1 {
+    width: 1900px;
+    height: 100px;
+    text-align: center;
+    font-size: 100px;
+}
+
+#sub {
+    width: 1900px;
+    height: 50px;
+    font-size: xx-large;
+}
+
+#lettercountdiv {
+    text-align: center;
+    font-size: 150px;
+}
